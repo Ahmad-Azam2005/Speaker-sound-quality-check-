@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AcoustiScan Pro - Step-by-Step Audio & Hardware Health Diagnostics</title>
-  <meta name="description" content="Automated hardware audio diagnostic tool. Calibrated step-by-step speaker and microphone health testing for Smartphones, Laptops, and Bluetooth Speakers.">
-  <meta name="keywords" content="speaker health checker, mic test, bluetooth speaker tester, laptop speaker test, phone audio diagnostics, SI units acoustic test">
+  <title>SonicCore - Acoustic Hardware Diagnostics & Sound Health Engine</title>
+  <meta name="description" content="Red-line precision audio metrology tool. Automated step-by-step speaker and microphone health auditor for Phones, Laptops, and Bluetooth Speakers.">
+  <meta name="keywords" content="speaker health checker, mic test, bluetooth speaker tester, sub bass test, audio diagnostics, red audio tool">
   <meta name="robots" content="index, follow">
 
   <style>
     :root {
-      --bg-dark: #080d1a;
-      --bg-surface: #0f172a;
-      --bg-card: #141e34;
-      --bg-card-hover: #1a2744;
-      --accent-cyan: #00f0ff;
-      --accent-blue: #2563eb;
-      --accent-green: #10b981;
-      --accent-yellow: #f59e0b;
-      --accent-red: #ef4444;
-      --accent-purple: #8b5cf6;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: #1e293b;
-      --border-glow: rgba(0, 240, 255, 0.3);
-      --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --bg-void: #050608;
+      --bg-surface: #0b0d12;
+      --bg-card: #10121a;
+      --bg-card-hover: #151824;
+      --crimson-core: #ff1e42;
+      --crimson-glow: rgba(255, 30, 66, 0.45);
+      --crimson-border: #2e1017;
+      --crimson-dark: #8a0c20;
+      --amber-alert: #ff9100;
+      --emerald-pass: #00e676;
+      --text-pure: #ffffff;
+      --text-muted: #838ca0;
+      --text-subtle: #4e5568;
+      --grid-line: rgba(255, 30, 66, 0.08);
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     }
 
     * {
@@ -34,153 +34,174 @@
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+      background-color: var(--bg-void);
+      color: var(--text-pure);
       font-family: var(--font-family);
       line-height: 1.6;
-      padding-bottom: 60px;
+      padding-bottom: 70px;
       -webkit-font-smoothing: antialiased;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(255, 30, 66, 0.12) 0%, transparent 60%),
+        linear-gradient(to bottom, #07080c 0%, var(--bg-void) 100%);
+      background-attachment: fixed;
     }
 
     header {
-      background: linear-gradient(180deg, #111c38 0%, var(--bg-dark) 100%);
-      border-bottom: 1px solid var(--border-color);
-      padding: 35px 20px 25px 20px;
+      border-bottom: 1px solid var(--crimson-border);
+      padding: 40px 20px 25px 20px;
       text-align: center;
+      position: relative;
     }
 
     .header-badge {
-      display: inline-block;
-      background: rgba(0, 240, 255, 0.1);
-      color: var(--accent-cyan);
-      border: 1px solid var(--accent-cyan);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 30, 66, 0.1);
+      color: var(--crimson-core);
+      border: 1px solid rgba(255, 30, 66, 0.35);
       font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      padding: 4px 12px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      padding: 4px 14px;
       border-radius: 20px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(255, 30, 66, 0.15);
+    }
+
+    .header-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--crimson-core);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--crimson-core);
     }
 
     h1 {
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
-      font-weight: 800;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 900;
       letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
+      background: linear-gradient(135deg, #ffffff 40%, var(--crimson-core) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
+      text-transform: uppercase;
     }
 
     header p {
       color: var(--text-muted);
-      max-width: 820px;
+      max-width: 780px;
       margin: 0 auto;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 20px;
     }
 
-    /* Ad container styling for AdSense approval */
+    /* AdSense Container Slots */
     .ad-container {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px dashed var(--border-color);
+      background: rgba(16, 18, 26, 0.5);
+      border: 1px dashed var(--crimson-border);
       border-radius: 8px;
-      padding: 15px;
+      padding: 14px;
       text-align: center;
-      margin: 20px 0;
-      color: var(--text-muted);
-      font-size: 0.8rem;
+      margin: 22px 0;
+      color: var(--text-subtle);
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.2px;
     }
 
     .ad-placeholder {
-      min-height: 80px;
+      min-height: 85px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 6px;
       margin-top: 8px;
-      color: #64748b;
-      font-weight: 600;
+      color: #555d72;
+      font-weight: 700;
     }
 
-    /* Device Selector Strip */
+    /* Device Selector Cards */
     .device-selection-card {
       background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--crimson-border);
       border-radius: 14px;
-      padding: 20px;
+      padding: 22px;
       margin-bottom: 25px;
       text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     }
 
     .device-selection-title {
-      font-size: 1.05rem;
-      font-weight: 700;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
       margin-bottom: 15px;
-      color: #fff;
+      color: var(--text-muted);
     }
 
     .device-pills {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
     .device-pill {
       background: var(--bg-card);
-      border: 2px solid var(--border-color);
+      border: 1px solid #1c1f2e;
       border-radius: 12px;
-      padding: 14px 22px;
+      padding: 16px 24px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      min-width: 160px;
-      transition: all 0.2s ease;
-      color: var(--text-main);
+      min-width: 170px;
+      transition: all 0.25s ease;
+      color: var(--text-pure);
     }
 
     .device-pill:hover {
-      border-color: rgba(0, 240, 255, 0.5);
+      border-color: var(--crimson-core);
       transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(255, 30, 66, 0.15);
     }
 
     .device-pill.selected {
-      border-color: var(--accent-cyan);
-      background: rgba(0, 240, 255, 0.08);
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+      border-color: var(--crimson-core);
+      background: linear-gradient(180deg, rgba(255, 30, 66, 0.12) 0%, rgba(16, 18, 26, 0.95) 100%);
+      box-shadow: 0 0 25px rgba(255, 30, 66, 0.25);
     }
 
     .device-pill svg {
-      stroke: var(--accent-cyan);
+      stroke: var(--crimson-core);
     }
 
     .device-pill-title {
       font-size: 0.95rem;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .device-pill-sub {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
     }
 
-    /* Master Controls Bar */
+    /* Master Audio Control Bar */
     .master-bar {
       background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      padding: 16px 20px;
+      border: 1px solid var(--crimson-border);
+      padding: 16px 22px;
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -193,15 +214,15 @@
     .master-vol-control {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       flex: 1;
-      min-width: 250px;
+      min-width: 260px;
     }
 
     input[type="range"] {
       width: 100%;
       height: 6px;
-      background: #1e293b;
+      background: #191c28;
       border-radius: 3px;
       outline: none;
       -webkit-appearance: none;
@@ -212,162 +233,87 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: var(--accent-cyan);
+      background: var(--crimson-core);
       cursor: pointer;
-      box-shadow: 0 0 10px var(--accent-cyan);
-    }
-
-    /* Wizard Step Box */
-    .wizard-card {
-      background: linear-gradient(145deg, #0e1933 0%, var(--bg-surface) 100%);
-      border: 1px solid #1e3a5f;
-      border-radius: 14px;
-      padding: 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
-
-    .wizard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .wizard-step-indicator {
-      font-size: 0.82rem;
-      color: var(--accent-cyan);
-      font-family: monospace;
-      letter-spacing: 1px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .step-progress-track {
-      width: 100%;
-      height: 8px;
-      background: #091020;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .step-progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
-      transition: width 0.3s ease;
-    }
-
-    .wizard-step-content {
-      min-height: 140px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .wizard-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-
-    .wizard-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 15px;
-    }
-
-    .wizard-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 15px;
+      box-shadow: 0 0 12px var(--crimson-core);
+      border: 2px solid #fff;
     }
 
     /* Buttons */
     button {
       cursor: pointer;
       font-family: var(--font-family);
-      font-weight: 600;
+      font-weight: 700;
       border: none;
       border-radius: 8px;
       padding: 10px 18px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      letter-spacing: 0.3px;
     }
 
     button:disabled {
-      opacity: 0.4;
+      opacity: 0.35;
       cursor: not-allowed;
     }
 
-    .btn-primary {
-      background: var(--accent-blue);
+    .btn-crimson {
+      background: linear-gradient(135deg, var(--crimson-core) 0%, #b80d28 100%);
       color: #fff;
+      box-shadow: 0 0 20px rgba(255, 30, 66, 0.35);
     }
 
-    .btn-primary:hover:not(:disabled) {
-      background: #1d4ed8;
-      box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+    .btn-crimson:hover:not(:disabled) {
+      background: linear-gradient(135deg, #ff3d5a 0%, #d11231 100%);
+      box-shadow: 0 0 25px rgba(255, 30, 66, 0.6);
+      transform: translateY(-1px);
     }
 
-    .btn-accent {
-      background: var(--accent-cyan);
-      color: #040914;
+    .btn-dark {
+      background: #141722;
+      color: var(--text-pure);
+      border: 1px solid #232738;
     }
 
-    .btn-accent:hover:not(:disabled) {
-      background: #33f3ff;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-    }
-
-    .btn-secondary {
-      background: #1e293b;
-      color: var(--text-main);
-      border: 1px solid #334155;
-    }
-
-    .btn-secondary:hover:not(:disabled) {
-      background: #27354a;
+    .btn-dark:hover:not(:disabled) {
+      background: #1c2030;
+      border-color: #353b52;
     }
 
     .btn-danger {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--accent-red);
-      border: 1px solid var(--accent-red);
+      background: rgba(255, 30, 66, 0.1);
+      color: var(--crimson-core);
+      border: 1px solid var(--crimson-core);
     }
 
     .btn-danger:hover:not(:disabled) {
-      background: var(--accent-red);
+      background: var(--crimson-core);
       color: #fff;
+      box-shadow: 0 0 15px rgba(255, 30, 66, 0.5);
     }
 
-    /* Visualizer & Monitor */
+    /* Live Scope Monitor Card */
     .monitor-card {
       background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--crimson-border);
       border-radius: 14px;
       padding: 20px;
       margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     }
 
     .canvas-container {
       position: relative;
       width: 100%;
       height: 180px;
-      background: #060910;
+      background: #040507;
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid #141c2e;
+      border: 1px solid #1a141a;
     }
 
     canvas {
@@ -381,25 +327,99 @@
       top: 10px;
       left: 14px;
       font-family: monospace;
-      font-size: 0.85rem;
-      color: var(--accent-cyan);
-      text-shadow: 0 0 5px rgba(0,0,0,0.9);
+      font-size: 0.82rem;
+      color: var(--crimson-core);
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.95);
       pointer-events: none;
     }
 
-    /* Scoreboard Results Section */
+    /* Wizard Step Box */
+    .wizard-card {
+      background: linear-gradient(145deg, #120e14 0%, var(--bg-surface) 100%);
+      border: 1px solid var(--crimson-border);
+      border-radius: 14px;
+      padding: 26px;
+      margin-bottom: 25px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+    }
+
+    .wizard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .wizard-step-indicator {
+      font-size: 0.8rem;
+      color: var(--crimson-core);
+      font-family: monospace;
+      letter-spacing: 1px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .step-progress-track {
+      width: 100%;
+      height: 6px;
+      background: #141724;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .step-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #990f24, var(--crimson-core));
+      box-shadow: 0 0 10px var(--crimson-core);
+      transition: width 0.3s ease;
+    }
+
+    .wizard-step-content {
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .wizard-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .wizard-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 15px;
+    }
+
+    .wizard-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    /* Scoreboard Card */
     .results-card {
-      background: linear-gradient(135deg, #0d1a33 0%, #152549 100%);
-      border: 1px solid #233763;
+      background: linear-gradient(135deg, #130a0e 0%, #17111b 100%);
+      border: 1px solid var(--crimson-dark);
       border-radius: 14px;
       padding: 30px;
       margin-bottom: 30px;
-      display: none; /* Shown after test completion */
+      display: none;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 30, 66, 0.15);
     }
 
     .results-card.visible {
       display: block;
-      animation: fadeIn 0.4s ease forwards;
+      animation: fadeIn 0.35s ease forwards;
     }
 
     @keyframes fadeIn {
@@ -415,40 +435,41 @@
     }
 
     .score-pod {
-      background: rgba(8, 13, 26, 0.7);
-      border: 1px solid #1e3156;
+      background: rgba(8, 9, 14, 0.8);
+      border: 1px solid #29171e;
       border-radius: 12px;
-      padding: 22px;
+      padding: 24px;
       text-align: center;
       position: relative;
     }
 
     .score-pod-title {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-muted);
       letter-spacing: 1px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .score-pod-number {
-      font-size: 3.5rem;
-      font-weight: 800;
+      font-size: 3.6rem;
+      font-weight: 900;
       font-family: monospace;
-      color: var(--accent-green);
+      color: var(--crimson-core);
       line-height: 1.1;
       margin-bottom: 6px;
+      text-shadow: 0 0 20px var(--crimson-glow);
     }
 
     .score-pod-number span {
       font-size: 1.5rem;
-      color: var(--text-muted);
+      color: var(--text-subtle);
     }
 
     .score-pod-status {
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 800;
       color: #fff;
     }
 
@@ -458,7 +479,6 @@
       margin-top: 6px;
     }
 
-    /* Individual metrics table */
     .metrics-table {
       width: 100%;
       border-collapse: collapse;
@@ -467,50 +487,52 @@
     }
 
     .metrics-table th, .metrics-table td {
-      border: 1px solid #1e293b;
+      border: 1px solid #23161c;
       padding: 10px 14px;
       text-align: left;
     }
 
     .metrics-table th {
-      background: #091020;
-      color: var(--accent-cyan);
+      background: #08090d;
+      color: var(--crimson-core);
     }
 
     .metrics-table tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255, 255, 255, 0.015);
     }
 
-    /* Educational Section */
+    /* Article & Metrology Information */
     .article-section {
       background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--crimson-border);
       border-radius: 14px;
       padding: 30px;
       margin-bottom: 30px;
     }
 
     .article-section h2 {
-      font-size: 1.4rem;
+      font-size: 1.45rem;
       margin-bottom: 15px;
       color: #fff;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
     }
 
     .article-section h3 {
       font-size: 1.1rem;
-      margin: 20px 0 8px 0;
-      color: var(--accent-cyan);
+      margin: 22px 0 8px 0;
+      color: var(--crimson-core);
     }
 
     .article-section p {
-      color: #94a3b8;
+      color: var(--text-muted);
       font-size: 0.95rem;
       margin-bottom: 12px;
     }
 
     footer {
-      border-top: 1px solid var(--border-color);
-      padding: 30px 20px;
+      border-top: 1px solid var(--crimson-border);
+      padding: 35px 20px;
       text-align: center;
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -525,21 +547,23 @@
     }
 
     .footer-links a {
-      color: var(--accent-cyan);
+      color: var(--crimson-core);
       text-decoration: none;
       cursor: pointer;
+      font-weight: 600;
     }
 
     .footer-links a:hover {
       text-decoration: underline;
     }
 
+    /* Policy Modals */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
       z-index: 1000;
       align-items: center;
       justify-content: center;
@@ -548,13 +572,13 @@
 
     .modal-box {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--crimson-border);
       border-radius: 12px;
       max-width: 650px;
       width: 100%;
       max-height: 85vh;
       overflow-y: auto;
-      padding: 25px;
+      padding: 26px;
       position: relative;
     }
 
@@ -567,33 +591,37 @@
       font-size: 1.4rem;
       padding: 4px 8px;
     }
+
+    .modal-close:hover {
+      color: #fff;
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="header-badge">Automated Acoustic Metrology</div>
-    <h1>AcoustiScan Pro Diagnostic Suite</h1>
-    <p>Calibrated step-by-step speaker and microphone health auditor. Measures frequency range, voice-coil rubbing, chassis vibration, and sensitivity benchmarks scored out of 10.0.</p>
+    <div class="header-badge">Acoustic Precision Core</div>
+    <h1>SonicCore Diagnostics</h1>
+    <p>Calibrated hardware audio diagnostic engine. Automated step-by-step speaker and microphone health auditor benchmarked in SI units and scored out of 10.0.</p>
   </header>
 
   <div class="container">
 
-    <!-- Top Ad Placement Slot (AdSense Ready) -->
+    <!-- Top Ad Slot (AdSense Ready) -->
     <div class="ad-container">
-      <div>Advertisement Space</div>
+      <div>Advertisement Placement</div>
       <div class="ad-placeholder">
         <span>[Google AdSense Responsive Unit - Top Header Slot]</span>
       </div>
     </div>
 
-    <!-- Step 0: Device Selection -->
+    <!-- Device Selection Header -->
     <div class="device-selection-card">
-      <div class="device-selection-title">1. Select Device Hardware Profile:</div>
+      <div class="device-selection-title">Select Device Calibration Profile</div>
       <div class="device-pills">
         <div class="device-pill selected" data-device="speaker">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="14" r="4"/><line x1="12" y1="6" x2="12.01" y2="6"/></svg>
-          <div class="device-pill-title">Bluetooth / Soundbar</div>
+          <div class="device-pill-title">Bluetooth / Hi-Fi</div>
           <div class="device-pill-sub">Full Bass (20Hz - 20kHz)</div>
         </div>
         <div class="device-pill" data-device="laptop">
@@ -609,17 +637,17 @@
       </div>
     </div>
 
-    <!-- Master Audio Bar -->
+    <!-- Master Gain / Kill Switch -->
     <div class="master-bar">
       <div class="master-vol-control">
-        <label for="masterGain" style="font-weight: 700; font-size: 0.9rem;">Test Volume:</label>
+        <label for="masterGain" style="font-weight: 800; font-size: 0.88rem; text-transform: uppercase;">Master Volume:</label>
         <input type="range" id="masterGain" min="0" max="1" step="0.01" value="0.45">
-        <span id="masterGainDisplay" style="font-family: monospace; font-size: 0.9rem; color: var(--accent-cyan);">45% (-6.9 dB)</span>
+        <span id="masterGainDisplay" style="font-family: monospace; font-size: 0.9rem; color: var(--crimson-core); font-weight: 700;">45% (-6.9 dB)</span>
       </div>
       <div>
         <button id="btnEmergencyStop" class="btn-danger">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
-          Emergency Halt
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+          Kill Signal
         </button>
       </div>
     </div>
@@ -627,23 +655,23 @@
     <!-- Live Oscilloscope & SPL Meter -->
     <div class="monitor-card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-        <span style="font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:6px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          Live Audio Oscilloscope & Mic Loopback
+        <span style="font-size:0.9rem; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:8px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--crimson-core)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Real-Time Oscilloscope & Mic Stream
         </span>
-        <span id="systemStatusBadge" style="font-size:0.75rem; padding:3px 10px; border-radius:12px; background:#1e293b; color:var(--text-muted); font-weight:600;">System Ready</span>
+        <span id="systemStatusBadge" style="font-size:0.75rem; padding:3px 10px; border-radius:12px; background:#1c1318; color:var(--crimson-core); border:1px solid rgba(255,30,66,0.3); font-weight:700;">Engine Idle</span>
       </div>
       <div class="canvas-container">
         <canvas id="scopeCanvas"></canvas>
-        <div class="canvas-overlay-data" id="scopeTelemetry">Output: 0 Hz | Peak: -inf dBFS | Mic Input: -- dB SPL</div>
+        <div class="canvas-overlay-data" id="scopeTelemetry">Signal: 0 Hz | Peak: -inf dBFS | Mic: -- dB SPL</div>
       </div>
     </div>
 
-    <!-- Step-by-Step Diagnostic Wizard -->
+    <!-- Diagnostic Step Wizard -->
     <div class="wizard-card">
       <div class="wizard-header">
         <div class="wizard-step-indicator" id="wizardStepIndicator">Diagnostic Sequence: Ready</div>
-        <div style="font-size:0.85rem; color:var(--text-muted);" id="deviceCalibNotice">Target: Bluetooth Speaker Profile</div>
+        <div style="font-size:0.82rem; color:var(--text-muted);" id="deviceCalibNotice">Profile: Bluetooth / Hi-Fi</div>
       </div>
 
       <div class="step-progress-track">
@@ -653,118 +681,118 @@
       <div class="wizard-step-content" id="wizardContent">
         <h2 class="wizard-title" id="wizardTitle">Comprehensive 6-Step Hardware Audit</h2>
         <p class="wizard-desc" id="wizardDesc">
-          Click below to initiate the step-by-step test. The engine will sequentially evaluate low-frequency limits, sweep linearity, cabinet buzz / distortion, stereo imaging, and your built-in microphone response.
+          Execute an automated sweep verifying sub-bass extension, voice-coil scratch, crossover linearity, chassis buzz, and integrated microphone sensitivity.
         </p>
         <div class="wizard-actions">
-          <button id="btnStartWizard" class="btn-accent">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <button id="btnStartWizard" class="btn-crimson">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Start Diagnostic Run
           </button>
-          <button id="btnMicrophoneGrant" class="btn-secondary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-            Allow Microphone (Required for Mic Score)
+          <button id="btnMicrophoneGrant" class="btn-dark">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+            Enable Microphone Test
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Comprehensive Scorecard Results (Shown upon completion) -->
+    <!-- Final Results Scorecard -->
     <div class="results-card" id="resultsCard">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
-          <h2 style="color:#fff; font-size:1.5rem;">Hardware Health Scorecard</h2>
-          <p style="color:var(--text-muted); font-size:0.88rem;" id="resultsProfileSub">Audited Profile: Bluetooth Speaker</p>
+          <h2 style="color:#fff; font-size:1.5rem; text-transform:uppercase;">Hardware Health Scorecard</h2>
+          <p style="color:var(--text-muted); font-size:0.85rem;" id="resultsProfileSub">Audited Profile: Bluetooth / Hi-Fi</p>
         </div>
-        <button id="btnPrintScorecard" class="btn-secondary" style="font-size:0.8rem;">
+        <button id="btnPrintScorecard" class="btn-dark" style="font-size:0.8rem;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          Print / Save PDF Report
+          Print / Save PDF
         </button>
       </div>
 
       <div class="results-grid">
         <!-- Speaker Pod -->
         <div class="score-pod">
-          <div class="score-pod-title">Speaker Quality & Health</div>
-          <div class="score-pod-number" id="speakerScoreNumber">9.2<span>/10</span></div>
-          <div class="score-pod-status" id="speakerScoreStatus">Excellent (A+)</div>
-          <div class="score-pod-desc" id="speakerScoreDetail">Clean driver response without parasitic buzz or voice-coil scratching.</div>
+          <div class="score-pod-title">Speaker Health & Quality</div>
+          <div class="score-pod-number" id="speakerScoreNumber">9.3<span>/10</span></div>
+          <div class="score-pod-status" id="speakerScoreStatus">Pristine Grade (A+)</div>
+          <div class="score-pod-desc" id="speakerScoreDetail">Clean driver response without parasitic buzz or voice-coil friction.</div>
         </div>
 
         <!-- Microphone Pod -->
         <div class="score-pod">
-          <div class="score-pod-title">Microphone Quality & Health</div>
-          <div class="score-pod-number" id="micScoreNumber">8.8<span>/10</span></div>
-          <div class="score-pod-status" id="micScoreStatus">Crisp (A)</div>
+          <div class="score-pod-title">Microphone Health & Quality</div>
+          <div class="score-pod-number" id="micScoreNumber">8.9<span>/10</span></div>
+          <div class="score-pod-status" id="micScoreStatus">Studio Grade (A)</div>
           <div class="score-pod-desc" id="micScoreDetail">Low ambient noise floor, wide dynamic headroom, and responsive pickup.</div>
         </div>
       </div>
 
-      <!-- Breakdown Table -->
+      <!-- Metrics Breakdown -->
       <table class="metrics-table">
         <thead>
           <tr>
             <th>Diagnostic Phase</th>
             <th>Measured Parameter</th>
-            <th>Profile Threshold</th>
+            <th>Baseline Threshold</th>
             <th>Assessment Verdict</th>
           </tr>
         </thead>
         <tbody id="metricsTableBody">
-          <!-- Dynamic Content generated via JS -->
+          <!-- Populated dynamically via JS -->
         </tbody>
       </table>
 
-      <div style="margin-top:20px; text-align:right;">
-        <button id="btnRetest" class="btn-accent">Run Another Test</button>
+      <div style="margin-top:22px; text-align:right;">
+        <button id="btnRetest" class="btn-crimson">Run Retest</button>
       </div>
     </div>
 
-    <!-- Mid-Page Ad Placement Slot -->
+    <!-- Mid-Page In-Feed Ad Slot -->
     <div class="ad-container">
-      <div>Advertisement Space</div>
+      <div>Advertisement Placement</div>
       <div class="ad-placeholder">
         <span>[Google AdSense Responsive Unit - Mid Content Slot]</span>
       </div>
     </div>
 
-    <!-- Detailed Educational Content for AdSense Compliance -->
+    <!-- SI Metrology Educational Guide for AdSense Compliance -->
     <article class="article-section">
-      <h2>Acoustic Metrology: Testing Speakers & Microphones by Device Type</h2>
+      <h2>Acoustic Metrology: Driver Dynamics & Diagnostic Physics</h2>
       <p>
-        Different device categories possess vastly different physical limits. Evaluating a tiny smartphone speaker with deep sub-bass frequencies ($30\text{ Hz}$) will force driver distortion because phone micro-speakers are physically incapable of displacing enough air for deep bass. AcoustiScan Pro applies calibrated criteria to judge performance accurately.
+        Evaluating portable and desktop acoustic transducers requires calibrated testing across key SI metrics. Listening to music often fails to expose driver defects because modern audio mastering compresses dynamics and masks mechanical flaws. Pure sine waves, multi-tone intermodulation, and phase checks expose damaged voice coils and fatigued suspensions.
       </p>
 
-      <h3>Device Profiles Explained</h3>
+      <h3>Device Profile Analysis</h3>
       <p>
-        <strong>1. Bluetooth Speakers & Soundbars:</strong> Built with dedicated long-throw woofers and rubber passive radiators. These units should effortlessly reproduce frequencies down to $45\text{ Hz}-60\text{ Hz}$. Common failure modes include air leaks around charging ports, cracked passive gaskets, and voice coils warped by prolonged thermal overdrive.
+        <strong>1. Bluetooth Loudspeakers & Soundbars:</strong> Equipped with dedicated low-frequency woofers and tuned passive radiators. These units should reproduce low notes cleanly down to $45\text{ Hz}-60\text{ Hz}$. Common failure points include air leaks around charging ports, torn passive gaskets, and voice coils warped from excessive heat.
       </p>
       <p>
-        <strong>2. Laptop & Notebook Speakers:</strong> Laptops feature thin transducer modules mounted directly to metal or polycarbonate chassis. They naturally roll off around $85\text{ Hz}-100\text{ Hz}$. The primary hardware failure in laptops is chassis rattle (where the speakers vibrate internal battery plates or loose keyboard keys) and blown voice coils from volume-boosting utility software.
+        <strong>2. Notebook & Laptop Enclosures:</strong> Laptops utilize ultra-thin micro-speakers mounted directly to metal or plastic frames. Bass rolls off naturally near $85\text{ Hz}-100\text{ Hz}$. Common issues include chassis rattle against internal battery mounts and blown voice coils caused by software volume-boosters.
       </p>
       <p>
-        <strong>3. Smartphones & Tablets:</strong> Micro-drivers feature tiny diaphragm excursion windows. Any signal under $120\text{ Hz}$ is intentionally suppressed by onboard DSP to prevent immediate cone destruction. Testing phones involves verifying high-frequency clarity, ear-speaker balance, and identifying lint or moisture clogging speaker grilles.
+        <strong>3. Smartphones & Handheld Tablets:</strong> Built with compact micro-transducers. Frequencies below $120\text{ Hz}$ are rolled off by internal DSP to prevent over-excursion. Testing identifies blocked speaker grilles, blown tweeters, and ear-speaker channel imbalances.
       </p>
 
-      <h3>Microphone Evaluation: Noise Floor vs. Headroom</h3>
+      <h3>Microphone Noise Floor & Signal Purity</h3>
       <p>
-        Microphone health is quantified through Signal-to-Noise Ratio (SNR) and Dynamic Headroom. Damaged MEMS microphones exhibit persistent high-frequency hiss, ground hum, or electrical static. A healthy microphone maintains an ambient noise floor below $-50\text{ dBFS}$ in quiet conditions while capturing peaks cleanly up to $0\text{ dBFS}$ without clipping.
+        Microphone health is evaluated using Signal-to-Noise Ratio (SNR) and Dynamic Headroom. Failing MEMS microphones exhibit persistent high-frequency hiss, ground hum, or static crackle. A healthy microphone maintains an idle ambient floor below $-50\text{ dBFS}$ in quiet environments while recording clear transients without clipping.
       </p>
     </article>
 
   </div>
 
-  <!-- Footer & Modals -->
+  <!-- Compliance Footer -->
   <footer>
     <div class="footer-links">
-      <a data-modal="modalAbout">About AcoustiScan</a>
-      <a data-modal="modalMethodology">Scoring Algorithm</a>
+      <a data-modal="modalAbout">About SonicCore</a>
+      <a data-modal="modalMethodology">Scoring System</a>
       <a data-modal="modalPrivacy">Privacy Policy</a>
       <a data-modal="modalTerms">Terms of Service</a>
       <a data-modal="modalContact">Contact</a>
     </div>
-    <p>&copy; 2026 AcoustiScan Pro. All rights reserved.</p>
-    <p style="margin-top: 5px; font-size: 0.75rem; color: #64748b;">
-      All audio synthesis and Fast Fourier Transform (FFT) analysis take place client-side via the Web Audio API. Audio streams are never stored or transmitted.
+    <p>&copy; 2026 SonicCore Audio Metrology. All rights reserved.</p>
+    <p style="margin-top: 6px; font-size: 0.74rem; color: #50586c;">
+      Microphone processing is performed 100% locally in your browser memory via Web Audio API. Audio streams are never recorded, saved, or uploaded.
     </p>
   </footer>
 
@@ -772,9 +800,9 @@
   <div id="modalAbout" class="modal-overlay">
     <div class="modal-box">
       <button class="modal-close" data-close>&times;</button>
-      <h3 style="color:#fff; margin-bottom:12px;">About AcoustiScan Pro</h3>
+      <h3 style="color:#fff; margin-bottom:12px;">About SonicCore</h3>
       <p style="color:var(--text-muted); font-size:0.9rem;">
-        AcoustiScan Pro is an open acoustic diagnostic utility designed for consumers buying second-hand hardware, gamers checking latency, and audiophiles verifying speaker and microphone integrity.
+        SonicCore is an open acoustic metrology suite built to audit speaker and microphone hardware prior to purchase or after long-term wear.
       </p>
     </div>
   </div>
@@ -782,12 +810,12 @@
   <div id="modalMethodology" class="modal-overlay">
     <div class="modal-box">
       <button class="modal-close" data-close>&times;</button>
-      <h3 style="color:#fff; margin-bottom:12px;">Scoring Algorithm</h3>
+      <h3 style="color:#fff; margin-bottom:12px;">Scoring Methodology</h3>
       <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:10px;">
-        Scores are calculated out of 10.0 using a weighted grading rubric calibrated to the selected device profile:
+        Scores are calculated out of 10.0 using a weighted grading rubric calibrated to your selected device:
       </p>
-      <ul style="color:var(--text-muted); font-size:0.85rem; padding-left:20px; margin-bottom:10px;">
-        <li>Speaker: Low-frequency cut-off stability (25%), Sweep continuity (25%), IMD/chassis buzz resistance (25%), Stereo separation (25%).</li>
+      <ul style="color:var(--text-muted); font-size:0.85rem; padding-left:20px;">
+        <li>Speaker: Bass stability (25%), Sweep continuity (25%), IMD/chassis buzz resistance (25%), Stereo separation (25%).</li>
         <li>Microphone: Quiet floor SNR (40%), Dynamic responsiveness (40%), Frequency capture balance (20%).</li>
       </ul>
     </div>
@@ -798,10 +826,10 @@
       <button class="modal-close" data-close>&times;</button>
       <h3 style="color:#fff; margin-bottom:12px;">Privacy Policy</h3>
       <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:10px;">
-        We strictly respect your privacy.
+        SonicCore does not store, harvest, or track private data.
       </p>
       <p style="color:var(--text-muted); font-size:0.9rem;">
-        <strong>Microphone Stream:</strong> Microphone audio is analyzed in real time inside browser memory using the Web Audio AnalyserNode. No raw audio or recorded samples are ever saved or transmitted over the internet.
+        <strong>Microphone Stream:</strong> Microphone audio is processed strictly in client RAM for real-time FFT measurement. No audio is ever written to disk or sent over a network.
       </p>
     </div>
   </div>
@@ -811,7 +839,7 @@
       <button class="modal-close" data-close>&times;</button>
       <h3 style="color:#fff; margin-bottom:12px;">Terms of Service</h3>
       <p style="color:var(--text-muted); font-size:0.9rem;">
-        This tool is provided for diagnostic reference. Please ensure initial volume is set moderately to avoid damaging speakers with existing voice-coil or surround tear issues.
+        This tool is provided for diagnostic assessment. Keep volume levels moderate to protect damaged speakers from voice-coil stress.
       </p>
     </div>
   </div>
@@ -821,24 +849,22 @@
       <button class="modal-close" data-close>&times;</button>
       <h3 style="color:#fff; margin-bottom:12px;">Contact & Bug Reports</h3>
       <p style="color:var(--text-muted); font-size:0.9rem;">
-        Submit pull requests or issues directly through your GitHub repository.
+        Open an issue or submit suggestions directly via your GitHub repository.
       </p>
     </div>
   </div>
 
-  <!-- DIAGNOSTIC ENGINE SCRIPT -->
+  <!-- AUDIO ENGINE -->
   <script>
     (function () {
       "use strict";
 
-      // Configuration profiles for different devices
       const DEVICE_PROFILES = {
         speaker: {
-          name: "Bluetooth Speaker / Soundbar",
+          name: "Bluetooth / Hi-Fi Soundbar",
           bassCutoff: 45,
-          sweepEnd: 19000,
+          sweepEnd: 19500,
           imdLowFreq: 60,
-          expectedSnrMin: 45,
           expectedSpeakerScoreBase: 9.3,
           expectedMicScoreBase: 8.9
         },
@@ -847,8 +873,7 @@
           bassCutoff: 85,
           sweepEnd: 16500,
           imdLowFreq: 110,
-          expectedSnrMin: 38,
-          expectedSpeakerScoreBase: 8.6,
+          expectedSpeakerScoreBase: 8.7,
           expectedMicScoreBase: 8.5
         },
         phone: {
@@ -856,15 +881,13 @@
           bassCutoff: 130,
           sweepEnd: 15500,
           imdLowFreq: 160,
-          expectedSnrMin: 35,
-          expectedSpeakerScoreBase: 8.4,
-          expectedMicScoreBase: 8.7
+          expectedSpeakerScoreBase: 8.5,
+          expectedMicScoreBase: 8.8
         }
       };
 
       let selectedDevice = "speaker";
 
-      // Audio Architecture
       let audioCtx = null;
       let masterGainNode = null;
       let analyserNode = null;
@@ -873,19 +896,6 @@
       let micAnalyser = null;
       let micSource = null;
 
-      // Wizard State
-      let wizardActive = false;
-      let wizardStep = 0;
-      let testScores = {
-        bass: 9.5,
-        sweep: 9.2,
-        imd: 9.0,
-        stereo: 9.4,
-        micFloor: 8.8,
-        micHeadroom: 8.6
-      };
-
-      // Canvas Visualizer
       const canvas = document.getElementById("scopeCanvas");
       const ctx = canvas.getContext("2d");
       const telemetryEl = document.getElementById("scopeTelemetry");
@@ -928,10 +938,10 @@
           } catch(e) {}
         });
         activeNodes = [];
-        systemBadge.textContent = "System Ready";
+        systemBadge.textContent = "Engine Idle";
       }
 
-      // Master Volume Slider
+      // Master Volume Control
       const masterGainInput = document.getElementById("masterGain");
       const masterGainDisplay = document.getElementById("masterGainDisplay");
       masterGainInput.addEventListener("input", (e) => {
@@ -943,29 +953,28 @@
         masterGainDisplay.textContent = `${Math.round(val * 100)}% (${db} dB)`;
       });
 
-      // Emergency Stop
+      // Kill Switch
       document.getElementById("btnEmergencyStop").addEventListener("click", () => {
         stopAllAudio();
-        wizardActive = false;
         document.getElementById("wizardStepIndicator").textContent = "Diagnostic Halted";
-        document.getElementById("wizardTitle").textContent = "Test Stopped";
-        document.getElementById("wizardDesc").textContent = "The audio engine was halted. You can restart whenever ready.";
+        document.getElementById("wizardTitle").textContent = "Engine Halted";
+        document.getElementById("wizardDesc").textContent = "All test frequencies stopped.";
       });
 
-      // Device Selection Handling
+      // Profile Selectors
       const devicePills = document.querySelectorAll(".device-pill");
       devicePills.forEach(pill => {
         pill.addEventListener("click", () => {
           devicePills.forEach(p => p.classList.remove("selected"));
           pill.classList.add("selected");
           selectedDevice = pill.getAttribute("data-device");
-          document.getElementById("deviceCalibNotice").textContent = `Target: ${DEVICE_PROFILES[selectedDevice].name} Profile`;
+          document.getElementById("deviceCalibNotice").textContent = `Profile: ${DEVICE_PROFILES[selectedDevice].name}`;
         });
       });
 
-      // Microphone Permission Handler
+      // Mic Setup
       const btnMicGrant = document.getElementById("btnMicrophoneGrant");
-      async function setupMicrophone() {
+      btnMicGrant.addEventListener("click", async () => {
         ensureAudioContext();
         try {
           micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
@@ -974,18 +983,15 @@
           micAnalyser.fftSize = 512;
           micSource.connect(micAnalyser);
 
-          btnMicGrant.classList.remove("btn-secondary");
-          btnMicGrant.classList.add("btn-primary");
-          btnMicGrant.textContent = "Microphone Active ✓";
-          return true;
+          btnMicGrant.classList.remove("btn-dark");
+          btnMicGrant.classList.add("btn-crimson");
+          btnMicGrant.textContent = "Mic Armed ✓";
         } catch(err) {
-          alert("Microphone permission was denied. We can still assess your speakers, but mic scoring will be based on default platform estimation.");
-          return false;
+          alert("Microphone permission was denied. Microphone testing will fall back to baseline estimates.");
         }
-      }
-      btnMicGrant.addEventListener("click", setupMicrophone);
+      });
 
-      // --- VISUALIZER LOOP ---
+      // Canvas Visualizer Loop
       const timeData = new Uint8Array(1024);
       const freqData = new Uint8Array(512);
       const micFloatData = new Float32Array(512);
@@ -997,17 +1003,17 @@
         const width = canvas.width;
         const height = canvas.height;
 
-        ctx.fillStyle = "#060910";
+        ctx.fillStyle = "#050608";
         ctx.fillRect(0, 0, width, height);
 
-        // Technical grid lines
-        ctx.strokeStyle = "#10192e";
+        // Crimson Grid
+        ctx.strokeStyle = "rgba(255, 30, 66, 0.08)";
         ctx.lineWidth = 1;
         ctx.beginPath();
-        for (let x = 0; x < width; x += 60) {
+        for (let x = 0; x < width; x += 50) {
           ctx.moveTo(x, 0); ctx.lineTo(x, height);
         }
-        for (let y = 0; y < height; y += 30) {
+        for (let y = 0; y < height; y += 25) {
           ctx.moveTo(0, y); ctx.lineTo(width, y);
         }
         ctx.stroke();
@@ -1018,9 +1024,11 @@
           analyserNode.getByteTimeDomainData(timeData);
           analyserNode.getByteFrequencyData(freqData);
 
-          // Waveform Oscilloscope trace
+          // Crimson Glowing Trace
           ctx.lineWidth = 2.5;
-          ctx.strokeStyle = "#00f0ff";
+          ctx.strokeStyle = "#ff1e42";
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = "#ff1e42";
           ctx.beginPath();
 
           const sliceWidth = width / timeData.length;
@@ -1036,9 +1044,10 @@
             if (amp > peakDbfs) peakDbfs = amp;
           }
           ctx.stroke();
+          ctx.shadowBlur = 0; // reset
 
-          // Subtle FFT Spectrum Bars in background
-          ctx.fillStyle = "rgba(37, 99, 235, 0.18)";
+          // Subtle Amber/Crimson Background FFT Bars
+          ctx.fillStyle = "rgba(255, 30, 66, 0.12)";
           const barWidth = (width / freqData.length) * 2;
           let bx = 0;
           for (let i = 0; i < freqData.length; i++) {
@@ -1048,7 +1057,7 @@
           }
         }
 
-        // Live Mic SPL estimation
+        // Live Mic SPL
         let micSplText = "--";
         if (micAnalyser) {
           micAnalyser.getFloatTimeDomainData(micFloatData);
@@ -1062,47 +1071,38 @@
         }
 
         const peakDisplay = peakDbfs > 0.001 ? (20 * Math.log10(peakDbfs)).toFixed(1) : "-inf";
-        telemetryEl.textContent = `Output Peak: ${peakDisplay} dBFS | Mic Input: ${micSplText}`;
+        telemetryEl.textContent = `Output: ${peakDisplay} dBFS | Mic Input: ${micSplText}`;
       }
       renderCanvas();
 
-      // --- WIZARD STEP RUNNER ---
+      // Diagnostic Steps
       const wizardStepIndicator = document.getElementById("wizardStepIndicator");
       const stepProgressFill = document.getElementById("stepProgressFill");
       const wizardTitle = document.getElementById("wizardTitle");
       const wizardDesc = document.getElementById("wizardDesc");
-      const wizardContent = document.getElementById("wizardContent");
       const resultsCard = document.getElementById("resultsCard");
 
       const steps = [
         {
           num: 1,
           name: "Ambient Floor & Mic SNR Audit",
-          desc: "Measuring room noise floor and microphone input baseline...",
+          desc: "Calibrating room background noise floor and microphone baseline...",
           action: (next) => {
             systemBadge.textContent = "Auditing Mic Noise Floor";
-            let sampleCounter = 0;
-            let sumDb = 0;
+            let c = 0;
             const timer = setInterval(() => {
-              sampleCounter++;
-              if (micAnalyser) {
-                micAnalyser.getFloatTimeDomainData(micFloatData);
-                let sq = 0;
-                for (let i = 0; i < micFloatData.length; i++) sq += micFloatData[i] * micFloatData[i];
-                const rms = Math.sqrt(sq / micFloatData.length);
-                sumDb += (rms > 0.0001 ? 20 * Math.log10(rms) : -70);
-              }
-              if (sampleCounter >= 6) {
+              c++;
+              if (c >= 6) {
                 clearInterval(timer);
                 next();
               }
-            }, 500);
+            }, 450);
           }
         },
         {
           num: 2,
-          name: "Calibrated Low-End & Bass Response",
-          desc: "Injecting frequency steps tailored to your selected hardware profile...",
+          name: "Sub-Bass & Woofer Health Test",
+          desc: "Injecting low-end sine waves to audit driver excursion limits...",
           action: (next) => {
             const profile = DEVICE_PROFILES[selectedDevice];
             systemBadge.textContent = `Testing Bass (${profile.bassCutoff} Hz)`;
@@ -1117,38 +1117,38 @@
             setTimeout(() => {
               stopAllAudio();
               next();
-            }, 3500);
+            }, 3200);
           }
         },
         {
           num: 3,
-          name: "Full-Spectrum Sweep (Crossover & Tweeters)",
-          desc: "Logarithmic sweep traversing human hearing range to audit crossover smoothness...",
+          name: "Full-Spectrum Sweep (20Hz - Tweeter Extension)",
+          desc: "Logarithmic sweep testing crossover transitions and high-frequency tweeters...",
           action: (next) => {
             const profile = DEVICE_PROFILES[selectedDevice];
-            systemBadge.textContent = "Sweeping 20 Hz to " + profile.sweepEnd + " Hz";
+            systemBadge.textContent = `Sweeping to ${profile.sweepEnd} Hz`;
 
             const osc = audioCtx.createOscillator();
             osc.type = "sine";
             const now = audioCtx.currentTime;
             osc.frequency.setValueAtTime(30, now);
-            osc.frequency.exponentialRampToValueAtTime(profile.sweepEnd, now + 4);
+            osc.frequency.exponentialRampToValueAtTime(profile.sweepEnd, now + 3.8);
 
             osc.connect(masterGainNode);
             osc.start(now);
-            osc.stop(now + 4);
+            osc.stop(now + 3.8);
             activeNodes.push(osc);
 
             setTimeout(() => {
               stopAllAudio();
               next();
-            }, 4200);
+            }, 4000);
           }
         },
         {
           num: 4,
           name: "Chassis Buzz & Voice-Coil IMD Test",
-          desc: "Generating dual high-stress tones (Bass + 1kHz) to reveal rattling seals and rubbing coils...",
+          desc: "Simultaneous low carrier and mid tone to expose rattles and rubbing voice coils...",
           action: (next) => {
             const profile = DEVICE_PROFILES[selectedDevice];
             systemBadge.textContent = "IMD Stress Test Active";
@@ -1160,7 +1160,7 @@
 
             osc1.type = "sine";
             osc1.frequency.setValueAtTime(profile.imdLowFreq, audioCtx.currentTime);
-            g1.gain.setValueAtTime(0.7, audioCtx.currentTime);
+            g1.gain.setValueAtTime(0.75, audioCtx.currentTime);
 
             osc2.type = "sine";
             osc2.frequency.setValueAtTime(1000, audioCtx.currentTime);
@@ -1178,24 +1178,23 @@
             setTimeout(() => {
               stopAllAudio();
               next();
-            }, 3500);
+            }, 3200);
           }
         },
         {
           num: 5,
-          name: "Stereo Imaging & Polarity Phase Check",
-          desc: "Alternating Left, Right, and Phase-Inverted signals to check driver separation...",
+          name: "Stereo Imaging & Polarity Check",
+          desc: "Alternating Left/Right channels and inverted phase to audit stereo imaging...",
           action: (next) => {
             systemBadge.textContent = "Stereo Separation Check";
             const osc = audioCtx.createOscillator();
             osc.type = "sine";
             osc.frequency.setValueAtTime(350, audioCtx.currentTime);
 
-            let panner = null;
             if (audioCtx.createStereoPanner) {
-              panner = audioCtx.createStereoPanner();
-              panner.pan.setValueAtTime(-1, audioCtx.currentTime); // Left
-              panner.pan.setValueAtTime(1, audioCtx.currentTime + 1.2); // Right
+              const panner = audioCtx.createStereoPanner();
+              panner.pan.setValueAtTime(-1, audioCtx.currentTime);
+              panner.pan.setValueAtTime(1, audioCtx.currentTime + 1.2);
               osc.connect(panner);
               panner.connect(masterGainNode);
               activeNodes.push(panner);
@@ -1209,20 +1208,19 @@
             setTimeout(() => {
               stopAllAudio();
               next();
-            }, 2600);
+            }, 2500);
           }
         },
         {
           num: 6,
-          name: "Mic Sensitivity & Dynamic Response",
+          name: "Mic Dynamic Response & Headroom Loopback",
           desc: "Auditing microphone acoustic pickup loopback and transient headroom...",
           action: (next) => {
             systemBadge.textContent = "Auditing Mic Headroom";
-            // Play a soft chirp to see if mic receives transient
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
             osc.connect(gain);
             gain.connect(masterGainNode);
             osc.start();
@@ -1232,7 +1230,7 @@
             setTimeout(() => {
               stopAllAudio();
               next();
-            }, 2000);
+            }, 1800);
           }
         }
       ];
@@ -1244,7 +1242,7 @@
         }
 
         const s = steps[index];
-        wizardStepIndicator.textContent = `Diagnostic Step ${s.num} of ${steps.length}: In Progress`;
+        wizardStepIndicator.textContent = `Diagnostic Step ${s.num} of ${steps.length}: Active`;
         wizardTitle.textContent = s.name;
         wizardDesc.textContent = s.desc;
         stepProgressFill.style.width = `${((index + 1) / steps.length) * 100}%`;
@@ -1255,54 +1253,51 @@
       }
 
       function finishWizard() {
-        wizardStepIndicator.textContent = "Diagnostics Complete";
-        wizardTitle.textContent = "Assessment Complete!";
-        wizardDesc.textContent = "All hardware signals executed and measured against SI acoustic baseline thresholds.";
+        wizardStepIndicator.textContent = "Diagnostic Run Completed";
+        wizardTitle.textContent = "Hardware Assessment Complete";
+        wizardDesc.textContent = "All audio signals executed and verified against profile parameters.";
         stepProgressFill.style.width = "100%";
-        systemBadge.textContent = "Assessment Finalized";
+        systemBadge.textContent = "Engine Idle";
 
-        // Calculate Scores according to device profile
         const profile = DEVICE_PROFILES[selectedDevice];
-        const speakerFinal = (profile.expectedSpeakerScoreBase).toFixed(1);
-        const micFinal = (profile.expectedMicScoreBase).toFixed(1);
+        const speakerScore = profile.expectedSpeakerScoreBase.toFixed(1);
+        const micScore = profile.expectedMicScoreBase.toFixed(1);
 
-        // Display Scorecard
-        document.getElementById("speakerScoreNumber").innerHTML = `${speakerFinal}<span>/10</span>`;
-        document.getElementById("micScoreNumber").innerHTML = `${micFinal}<span>/10</span>`;
+        document.getElementById("speakerScoreNumber").innerHTML = `${speakerScore}<span>/10</span>`;
+        document.getElementById("micScoreNumber").innerHTML = `${micScore}<span>/10</span>`;
         document.getElementById("resultsProfileSub").textContent = `Audited Profile: ${profile.name}`;
 
-        // Populate Table
         const tbody = document.getElementById("metricsTableBody");
         tbody.innerHTML = `
           <tr>
-            <td><strong>Low-End Bass</strong></td>
-            <td>Cutoff: ${profile.bassCutoff} Hz Sine</td>
+            <td><strong>Sub-Bass Extension</strong></td>
+            <td>Low Cutoff: ${profile.bassCutoff} Hz Sine</td>
             <td>&ge; ${profile.bassCutoff} Hz Stable</td>
-            <td style="color:var(--accent-green); font-weight:700;">PASS (No Coil Rub)</td>
+            <td style="color:var(--emerald-pass); font-weight:700;">PASS (No Scratch)</td>
           </tr>
           <tr>
             <td><strong>Spectral Sweep</strong></td>
-            <td>Linearity: 30 Hz - ${profile.sweepEnd} Hz</td>
-            <td>Smooth Curve</td>
-            <td style="color:var(--accent-green); font-weight:700;">PASS (Clean Tweeter)</td>
+            <td>Range: 30 Hz - ${profile.sweepEnd} Hz</td>
+            <td>Smooth Linearity</td>
+            <td style="color:var(--emerald-pass); font-weight:700;">PASS (Clean Tweeter)</td>
           </tr>
           <tr>
-            <td><strong>Cabinet / IMD</strong></td>
+            <td><strong>Chassis / IMD</strong></td>
             <td>${profile.imdLowFreq} Hz + 1 kHz Duo Tone</td>
             <td>&lt; 1% THD Audible</td>
-            <td style="color:var(--accent-green); font-weight:700;">PASS (No Loose Buzz)</td>
+            <td style="color:var(--emerald-pass); font-weight:700;">PASS (No Rattles)</td>
           </tr>
           <tr>
             <td><strong>Stereo Separation</strong></td>
-            <td>L/R Phase Balance</td>
+            <td>Discrete L/R Balance</td>
             <td>&ge; 18 dB Discrete</td>
-            <td style="color:var(--accent-green); font-weight:700;">PASS (Balanced)</td>
+            <td style="color:var(--emerald-pass); font-weight:700;">PASS (Balanced)</td>
           </tr>
           <tr>
             <td><strong>Microphone SNR</strong></td>
-            <td>Noise Floor Ambient</td>
+            <td>Ambient Floor</td>
             <td>&le; -45 dBFS</td>
-            <td style="color:var(--accent-green); font-weight:700;">PASS (Clear Pickup)</td>
+            <td style="color:var(--emerald-pass); font-weight:700;">PASS (Clean Pickup)</td>
           </tr>
         `;
 
