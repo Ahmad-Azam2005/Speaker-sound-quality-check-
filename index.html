@@ -3,10 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SonicCore - Acoustic Hardware Diagnostics & Sound Health Engine</title>
-  <meta name="description" content="Red-line precision audio metrology tool. Automated step-by-step speaker and microphone health auditor for Phones, Laptops, and Bluetooth Speakers.">
-  <meta name="keywords" content="speaker health checker, mic test, bluetooth speaker tester, sub bass test, audio diagnostics, red audio tool">
+  <title>Speaker & Microphone Health Tester Online | Acoustic Diagnostics</title>
+  <meta name="description" content="Free online speaker and microphone diagnostic utility. Test frequency response, sub-bass limits, stereo separation, and mic sensitivity directly in your browser.">
+  <link rel="canonical" href="https://ahmad-azam2005.github.io/">
   <meta name="robots" content="index, follow">
+
+  <!-- GOOGLE SEARCH CONSOLE VERIFICATION TAG -->
+  <meta name="google-site-verification" content="googlee72f2e338b28e207" />
+
+  <!-- GOOGLE ADSENSE SCRIPT -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5501194472375706"
+       crossorigin="anonymous"></script>
+
+  <!-- OPEN GRAPH META TAGS -->
+  <meta property="og:title" content="SonicCore - Speaker & Mic Diagnostic Tool">
+  <meta property="og:description" content="Run calibrated audio sweeps, test speaker buzz, and measure mic floor levels online.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ahmad-azam2005.github.io/">
+
+  <!-- SCHEMA.ORG STRUCTURED DATA -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SonicCore Acoustic Diagnostics",
+    "url": "https://ahmad-azam2005.github.io/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires Web Audio API support",
+    "description": "Browser-based hardware audio testing suite for speaker drivers, sub-bass extension, chassis rattle, and microphone frequency pickup."
+  }
+  </script>
 
   <style>
     :root {
@@ -101,32 +128,6 @@
       max-width: 1180px;
       margin: 0 auto;
       padding: 20px;
-    }
-
-    /* AdSense Container Slots */
-    .ad-container {
-      background: rgba(16, 18, 26, 0.5);
-      border: 1px dashed var(--crimson-border);
-      border-radius: 8px;
-      padding: 14px;
-      text-align: center;
-      margin: 22px 0;
-      color: var(--text-subtle);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-    }
-
-    .ad-placeholder {
-      min-height: 85px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 6px;
-      margin-top: 8px;
-      color: #555d72;
-      font-weight: 700;
     }
 
     /* Device Selector Cards */
@@ -479,11 +480,17 @@
       margin-top: 6px;
     }
 
+    .metrics-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
     .metrics-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
       font-size: 0.88rem;
+      min-width: 580px;
     }
 
     .metrics-table th, .metrics-table td {
@@ -607,14 +614,6 @@
 
   <div class="container">
 
-    <!-- Top Ad Slot (AdSense Ready) -->
-    <div class="ad-container">
-      <div>Advertisement Placement</div>
-      <div class="ad-placeholder">
-        <span>[Google AdSense Responsive Unit - Top Header Slot]</span>
-      </div>
-    </div>
-
     <!-- Device Selection Header -->
     <div class="device-selection-card">
       <div class="device-selection-title">Select Device Calibration Profile</div>
@@ -728,34 +727,28 @@
       </div>
 
       <!-- Metrics Breakdown -->
-      <table class="metrics-table">
-        <thead>
-          <tr>
-            <th>Diagnostic Phase</th>
-            <th>Measured Parameter</th>
-            <th>Baseline Threshold</th>
-            <th>Assessment Verdict</th>
-          </tr>
-        </thead>
-        <tbody id="metricsTableBody">
-          <!-- Populated dynamically via JS -->
-        </tbody>
-      </table>
+      <div class="metrics-table-wrapper">
+        <table class="metrics-table">
+          <thead>
+            <tr>
+              <th>Diagnostic Phase</th>
+              <th>Measured Parameter</th>
+              <th>Baseline Threshold</th>
+              <th>Assessment Verdict</th>
+            </tr>
+          </thead>
+          <tbody id="metricsTableBody">
+            <!-- Dynamic items populated by script -->
+          </tbody>
+        </table>
+      </div>
 
       <div style="margin-top:22px; text-align:right;">
         <button id="btnRetest" class="btn-crimson">Run Retest</button>
       </div>
     </div>
 
-    <!-- Mid-Page In-Feed Ad Slot -->
-    <div class="ad-container">
-      <div>Advertisement Placement</div>
-      <div class="ad-placeholder">
-        <span>[Google AdSense Responsive Unit - Mid Content Slot]</span>
-      </div>
-    </div>
-
-    <!-- SI Metrology Educational Guide for AdSense Compliance -->
+    <!-- Article & Metrology Information -->
     <article class="article-section">
       <h2>Acoustic Metrology: Driver Dynamics & Diagnostic Physics</h2>
       <p>
@@ -764,18 +757,18 @@
 
       <h3>Device Profile Analysis</h3>
       <p>
-        <strong>1. Bluetooth Loudspeakers & Soundbars:</strong> Equipped with dedicated low-frequency woofers and tuned passive radiators. These units should reproduce low notes cleanly down to $45\text{ Hz}-60\text{ Hz}$. Common failure points include air leaks around charging ports, torn passive gaskets, and voice coils warped from excessive heat.
+        <strong>1. Bluetooth Loudspeakers & Soundbars:</strong> Equipped with dedicated low-frequency woofers and tuned passive radiators. These units should reproduce low notes cleanly down to 45 Hz - 60 Hz. Common failure points include air leaks around charging ports, torn passive gaskets, and voice coils warped from excessive heat.
       </p>
       <p>
-        <strong>2. Notebook & Laptop Enclosures:</strong> Laptops utilize ultra-thin micro-speakers mounted directly to metal or plastic frames. Bass rolls off naturally near $85\text{ Hz}-100\text{ Hz}$. Common issues include chassis rattle against internal battery mounts and blown voice coils caused by software volume-boosters.
+        <strong>2. Notebook & Laptop Enclosures:</strong> Laptops utilize ultra-thin micro-speakers mounted directly to metal or plastic frames. Bass rolls off naturally near 85 Hz - 100 Hz. Common issues include chassis rattle against internal battery mounts and blown voice coils caused by software volume-boosters.
       </p>
       <p>
-        <strong>3. Smartphones & Handheld Tablets:</strong> Built with compact micro-transducers. Frequencies below $120\text{ Hz}$ are rolled off by internal DSP to prevent over-excursion. Testing identifies blocked speaker grilles, blown tweeters, and ear-speaker channel imbalances.
+        <strong>3. Smartphones & Handheld Tablets:</strong> Built with compact micro-transducers. Frequencies below 120 Hz are rolled off by internal DSP to prevent over-excursion. Testing identifies blocked speaker grilles, blown tweeters, and ear-speaker channel imbalances.
       </p>
 
       <h3>Microphone Noise Floor & Signal Purity</h3>
       <p>
-        Microphone health is evaluated using Signal-to-Noise Ratio (SNR) and Dynamic Headroom. Failing MEMS microphones exhibit persistent high-frequency hiss, ground hum, or static crackle. A healthy microphone maintains an idle ambient floor below $-50\text{ dBFS}$ in quiet environments while recording clear transients without clipping.
+        Microphone health is evaluated using Signal-to-Noise Ratio (SNR) and Dynamic Headroom. Failing MEMS microphones exhibit persistent high-frequency hiss, ground hum, or static crackle. A healthy microphone maintains an idle ambient floor below -50 dBFS in quiet environments while recording clear transients without clipping.
       </p>
     </article>
 
@@ -854,7 +847,7 @@
     </div>
   </div>
 
-  <!-- AUDIO ENGINE -->
+  <!-- AUDIO ENGINE SCRIPT -->
   <script>
     (function () {
       "use strict";
@@ -1044,9 +1037,9 @@
             if (amp > peakDbfs) peakDbfs = amp;
           }
           ctx.stroke();
-          ctx.shadowBlur = 0; // reset
+          ctx.shadowBlur = 0;
 
-          // Subtle Amber/Crimson Background FFT Bars
+          // Background FFT Bars
           ctx.fillStyle = "rgba(255, 30, 66, 0.12)";
           const barWidth = (width / freqData.length) * 2;
           let bx = 0;
@@ -1184,7 +1177,7 @@
         {
           num: 5,
           name: "Stereo Imaging & Polarity Check",
-          desc: "Alternating Left/Right channels and inverted phase to audit stereo imaging...",
+          desc: "Alternating Left/Right channels to audit stereo imaging...",
           action: (next) => {
             systemBadge.textContent = "Stereo Separation Check";
             const osc = audioCtx.createOscillator();
