@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AcoustiScan - Bluetooth Speaker Health & Audio Diagnostic Suite</title>
+  <meta name="description" content="Comprehensive Bluetooth speaker diagnostic suite. Test sub-bass frequency response, chassis buzz, driver distortion, stereo imaging, and Bluetooth latency in SI units.">
+  <meta name="keywords" content="speaker health checker, bluetooth speaker tester, sub bass test, audio diagnostics, SI acoustic units, thd distortion, frequency sweep">
+  <meta name="author" content="AcoustiScan Audio Diagnostics">
+  <meta name="robots" content="index, follow">
+
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --bg-card: #131b2e;
+      --bg-card-hover: #18233c;
+      --accent-cyan: #00f0ff;
+      --accent-blue: #0077ff;
+      --accent-green: #00e676;
+      --accent-yellow: #ffd600;
+      --accent-red: #ff3d71;
+      --text-main: #f0f4fc;
+      --text-muted: #8b9bb4;
+      --border-color: #1e2d4a;
+      --border-glow: rgba(0, 240, 255, 0.25);
+      --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      padding-bottom: 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: linear-gradient(180deg, #0f172a 0%, var(--bg-dark) 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 30px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--accent-cyan);
+      border: 1px solid var(--accent-cyan);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Ad Container styling */
+    .ad-container {
+      background: rgba(19, 27, 46, 0.6);
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      margin: 20px 0;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .ad-placeholder {
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      margin-top: 8px;
+      color: #52637f;
+      font-weight: 600;
+    }
+
+    /* Warning Banner */
+    .warning-banner {
+      background: rgba(255, 214, 0, 0.08);
+      border-left: 4px solid var(--accent-yellow);
+      padding: 12px 18px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: #ffe875;
+    }
+
+    /* Visualizer Canvas & Live Bar */
+    .monitor-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .monitor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .monitor-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: #202b42;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .status-badge.active {
+      background: rgba(0, 230, 118, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+    }
+
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #060910;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #141c2e;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .canvas-overlay-data {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      text-shadow: 0 0 5px rgba(0,0,0,0.9);
+      pointer-events: none;
+    }
+
+    /* Main Grid */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .diagnostic-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .diagnostic-panel:hover {
+      border-color: var(--border-glow);
+    }
+
+    .panel-head {
+      margin-bottom: 15px;
+    }
+
+    .panel-head h2 {
+      font-size: 1.15rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .si-tag {
+      font-size: 0.7rem;
+      font-family: monospace;
+      padding: 2px 6px;
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--accent-cyan);
+      border-radius: 4px;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+    }
+
+    .panel-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .panel-body {
+      margin-bottom: 15px;
+    }
+
+    /* Controls & Sliders */
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    button {
+      cursor: pointer;
+      font-family: var(--font-family);
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #0060d0;
+      box-shadow: 0 0 15px rgba(0, 119, 255, 0.4);
+    }
+
+    .btn-accent {
+      background: var(--accent-cyan);
+      color: #060910;
+    }
+
+    .btn-accent:hover:not(:disabled) {
+      background: #33f3ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+    }
+
+    .btn-danger {
+      background: rgba(255, 61, 113, 0.15);
+      color: var(--accent-red);
+      border: 1px solid var(--accent-red);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #1e2b45;
+      color: var(--text-main);
+      border: 1px solid #2d3e63;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #2a3a5e;
+    }
+
+    .slider-wrap {
+      margin: 12px 0;
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-family: monospace;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: #1b263b;
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--accent-cyan);
+    }
+
+    /* Master Volume Strip */
+    .master-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 15px 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .master-vol-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    /* Health Inspection Checklist */
+    .checklist-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .check-item {
+      background: #0c1322;
+      border: 1px solid #1a2742;
+      padding: 14px;
+      border-radius: 8px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .check-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-cyan);
+      margin-top: 3px;
+      cursor: pointer;
+    }
+
+    .check-item-text h4 {
+      font-size: 0.95rem;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .check-item-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .health-score-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #101c36 0%, #162447 100%);
+      border: 1px solid #233763;
+      padding: 18px 24px;
+      border-radius: 10px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .score-badge-large {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent-green);
+      font-family: monospace;
+    }
+
+    /* SI Units Educational Article Section */
+    .article-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .article-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .article-section h3 {
+      font-size: 1.2rem;
+      margin: 20px 0 8px 0;
+      color: var(--accent-cyan);
+    }
+
+    .article-section p {
+      color: #b0bfd8;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    .si-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+
+    .si-table th, .si-table td {
+      border: 1px solid #202d4a;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .si-table th {
+      background: #0d1527;
+      color: var(--accent-cyan);
+    }
+
+    .si-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Footer & Modals */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal dialog */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 25px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      padding: 4px 8px;
+    }
+
+    /* Latency Flash Box */
+    .latency-box {
+      width: 100%;
+      height: 70px;
+      border-radius: 8px;
+      background: #080d18;
+      border: 1px solid #1a263d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #64748b;
+      transition: background 0.05s ease;
+      margin: 10px 0;
+    }
+
+    .latency-box.flash {
+      background: var(--accent-cyan) !important;
+      color: #000 !important;
+      box-shadow: 0 0 25px var(--accent-cyan);
+    }
+
+    @media (max-width: 768px) {
+      .grid-layout {
+        grid-template-columns: 1fr;
+      }
+      .master-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-badge">Acoustic Metrology & Health Suite</div>
+    <h1>AcoustiScan Audio Diagnostics</h1>
+    <p>Real-time Bluetooth speaker inspection framework calibrated in SI units ($Hz, dB\text{ SPL}, W\text{ RMS}, \%\,THD, ms$). Designed for buyers, collectors, and sound engineers to audit driver integrity.</p>
+  </header>
+
+  <div class="container">
+
+    <!-- Top Ad Placement Slot (AdSense Ready) -->
+    <div class="ad-container">
+      <div>Advertisement Space</div>
+      <div class="ad-placeholder">
+        <span>[Google AdSense Responsive Unit Slot - Header]</span>
+      </div>
+    </div>
+
+    <!-- Hearing & Driver Safety Guardrail Banner -->
+    <div class="warning-banner">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>
+        <strong>Hardware & Ear Safety Notice:</strong> Tests emit pure tone sine waves and sub-bass transients. Keep initial volume at 30% to prevent voice-coil thermal damage, passive radiator tearing, or hearing fatigue.
+      </div>
+    </div>
+
+    <!-- Master Audio Bar -->
+    <div class="master-bar">
+      <div class="master-vol-control">
+        <label for="masterGain" style="font-weight: 700; font-size: 0.9rem;">Master Gain:</label>
+        <input type="range" id="masterGain" min="0" max="1" step="0.01" value="0.4">
+        <span id="masterGainDisplay" style="font-family: monospace; font-size: 0.9rem; color: var(--accent-cyan);">40% (-7.9 dB)</span>
+      </div>
+      <div>
+        <button id="btnEmergencyStop" class="btn-danger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+          Mute / Emergency Halt
+        </button>
+      </div>
+    </div>
+
+    <!-- Visualizer & Mic Monitor Card -->
+    <div class="monitor-card">
+      <div class="monitor-header">
+        <div class="monitor-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Real-Time Oscilloscope & Spectral Visualizer
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button id="btnEnableMic" class="btn-secondary" style="font-size:0.78rem; padding: 6px 12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            Live Mic dB SPL
+          </button>
+          <span id="activeSignalBadge" class="status-badge">Output: Idle</span>
+        </div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="scopeCanvas"></canvas>
+        <div class="canvas-overlay-data" id="scopeTelemetry">Signal: 0.00 Hz | Peak: -inf dBFS | Mic Est: -- dB SPL</div>
+      </div>
+    </div>
+
+    <!-- Diagnostic Suite Grid -->
+    <div class="grid-layout">
+
+      <!-- Test 1: Sub-Bass & Woofer Excursion -->
+      <div class="diagnostic-panel">
+        <div class="panel-head">
+          <h2>Sub-Bass & Woofer Health <span class="si-tag">20 Hz - 250 Hz</span></h2>
+          <p class="panel-desc">Audits driver excursion limits and passive radiator integrity. Listen for plastic chassis buzzing or blown coil rubbing.</p>
+        </div>
+        <div class="panel-body">
+          <div class="slider-wrap">
+            <div class="slider-label">
+              <span>Bass Frequency</span>
+              <span id="bassFreqLabel">55 Hz</span>
+            </div>
+            <input type="range" id="bassSlider" min="20" max="250" step="1" value="55">
+          </div>
+          <div class="btn-group">
+            <button class="btn-secondary" data-quickbass="30">30 Hz</button>
+            <button class="btn-secondary" data-quickbass="45">45 Hz</button>
+            <button class="btn-secondary" data-quickbass="60">60 Hz</button>
+            <button class="btn-secondary" data-quickbass="80">80 Hz</button>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button id="btnPlayBass" class="btn-primary">Start Continuous Bass</button>
+          <button id="btnStopBass" class="btn-secondary">Stop</button>
+        </div>
+      </div>
+
+      <!-- Test 2: Full Frequency Sweep -->
+      <div class="diagnostic-panel">
+        <div class="panel-head">
+          <h2>Linear/Log Frequency Sweep <span class="si-tag">20 Hz - 20 kHz</span></h2>
+          <p class="panel-desc">Smooth sweep across human audible spectrum ($20\text{ Hz}-20\text{ kHz}$) to detect crossover notches and dead tweeter cones.</p>
+        </div>
+        <div class="panel-body">
+          <div class="slider-wrap">
+            <div class="slider-label">
+              <span>Sweep Duration</span>
+              <span id="sweepDurLabel">15 Seconds</span>
+            </div>
+            <input type="range" id="sweepDurationSlider" min="5" max="30" step="1" value="15">
+          </div>
+          <div class="slider-wrap">
+            <div class="slider-label">
+              <span>Current Cursor</span>
+              <span id="sweepProgressFreq">Idle</span>
+            </div>
+            <div style="background:#0b1322; height:8px; border-radius:4px; overflow:hidden;">
+              <div id="sweepProgressBar" style="width:0%; height:100%; background:var(--accent-cyan); transition:width 0.1s linear;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button id="btnStartSweep" class="btn-accent">Execute Sweep</button>
+          <button id="btnStopSweep" class="btn-secondary">Halt</button>
+        </div>
+      </div>
+
+      <!-- Test 3: Stereo Imaging & Acoustic Polarity -->
+      <div class="diagnostic-panel">
+        <div class="panel-head">
+          <h2>Stereo & Polarity Phase <span class="si-tag">$\theta = 180^\circ$</span></h2>
+          <p class="panel-desc">Verifies discrete dual-channel separation and confirms speakers are not wired in reverse acoustic phase.</p>
+        </div>
+        <div class="panel-body">
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+            In-phase audio should localize dead center. Out-of-phase should cancel bass response and sound diffuse.
+          </p>
+          <div class="btn-group">
+            <button id="btnChannelLeft" class="btn-secondary">Left Only (L)</button>
+            <button id="btnChannelCenter" class="btn-secondary">Center (L+R)</button>
+            <button id="btnChannelRight" class="btn-secondary">Right Only (R)</button>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button id="btnPhaseNormal" class="btn-primary">In-Phase ($0^\circ$)</button>
+          <button id="btnPhaseInverted" class="btn-danger">Out-of-Phase ($180^\circ$)</button>
+          <button id="btnStopStereo" class="btn-secondary">Stop</button>
+        </div>
+      </div>
+
+      <!-- Test 4: Chassis Buzz & Dual-Tone IMD -->
+      <div class="diagnostic-panel">
+        <div class="panel-head">
+          <h2>Cabinet Buzz & IMD Stress <span class="si-tag">60 Hz + 1 kHz</span></h2>
+          <p class="panel-desc">Generates high-excursion bass while carrying a midrange tone. Uncovers loose battery brackets and cracked chassis welds.</p>
+        </div>
+        <div class="panel-body">
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+            If the high tone flutters, distorts, or rasps, the speaker amplifier is clipping or internal components are vibrating loose.
+          </p>
+          <div class="slider-wrap">
+            <div class="slider-label">
+              <span>Low/High Mix Ratio</span>
+              <span>80% Bass / 20% Mid</span>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button id="btnPlayIMD" class="btn-primary">Execute Dual-Tone Test</button>
+          <button id="btnStopIMD" class="btn-secondary">Halt</button>
+        </div>
+      </div>
+
+      <!-- Test 5: Bluetooth Latency Calibrator -->
+      <div class="diagnostic-panel">
+        <div class="panel-head">
+          <h2>A/V Sync & Bluetooth Lag <span class="si-tag">Milliseconds (ms)</span></h2>
+          <p class="panel-desc">Measures transmission latency introduced by Bluetooth codecs (SBC, AAC, aptX, LDAC). Essential for videos and gaming.</p>
+        </div>
+        <div class="panel-body">
+          <div id="latencyBox" class="latency-box">FLASH SYNC</div>
+          <div class="slider-wrap">
+            <div class="slider-label">
+              <span>Sync Audio Offset</span>
+              <span id="latencyOffsetLabel">0 ms</span>
+            </div>
+            <input type="range" id="latencyOffsetSlider" min="-300" max="300" step="10" value="0">
+          </div>
+        </div>
+        <div class="btn-group">
+          <button id="btnStartLatency" class="btn-accent">Start Sync Ticker</button>
+          <button id="btnStopLatency" class="btn-secondary">Stop</button>
+        </div>
+      </div>
+
+      <!-- Test 6: Dynamic Range & Noise Floor -->
+      <div class="diagnostic-panel">
+        <div class="panel-head">
+          <h2>DAC Floor & Idle Hiss <span class="si-tag">SNR / Noise Floor</span></h2>
+          <p class="panel-desc">Plays digitally dithered ultra-quiet tones to measure amplifier signal-to-noise ratio and static interference.</p>
+        </div>
+        <div class="panel-body">
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+            Audits whether low-cost class-D amplifiers create audible background hiss or whining when listening at low bedside volumes.
+          </p>
+          <div class="btn-group">
+            <button id="btnPinkNoise" class="btn-secondary">Pink Noise</button>
+            <button id="btnQuietTone" class="btn-secondary">-30 dBFS Low Sine</button>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button id="btnStopNoise" class="btn-secondary" style="width:100%;">Stop Tone/Noise</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mid-Page In-Feed Ad Placeholder -->
+    <div class="ad-container">
+      <div>Advertisement Space</div>
+      <div class="ad-placeholder">
+        <span>[Google AdSense Responsive Unit Slot - Mid Page In-Feed]</span>
+      </div>
+    </div>
+
+    <!-- Interactive Speaker Health Scorecard Section -->
+    <section class="checklist-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h2>Pre-Purchase Inspection Audit Report</h2>
+          <p style="color:var(--text-muted); font-size:0.9rem;">Mark each diagnostic checkpoint as you listen to the speaker.</p>
+        </div>
+        <button id="btnPrintReport" class="btn-secondary" style="font-size:0.8rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / Save PDF Report
+        </button>
+      </div>
+
+      <div class="checklist-grid" id="auditChecklist">
+        <label class="check-item">
+          <input type="checkbox" data-weight="15">
+          <div class="check-item-text">
+            <h4>No Sub-Bass Buzzing (&lt;60 Hz)</h4>
+            <p>No loose vibrations, rattling seals, or passive radiator buzzing under load.</p>
+          </div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-weight="15">
+          <div class="check-item-text">
+            <h4>Continuous Sweep Linearity</h4>
+            <p>Smooth transition across 20Hz - 20kHz without sudden volume drops or harsh peaks.</p>
+          </div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-weight="15">
+          <div class="check-item-text">
+            <h4>Clean Voice-Coil (No Scratching)</h4>
+            <p>Zero metallic scratching or paper-cone rubbing detected during excursion.</p>
+          </div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-weight="15">
+          <div class="check-item-text">
+            <h4>Stereo Separation & Phase Alignment</h4>
+            <p>Discrete L/R channel localization; clear phase cancellation when inverted.</p>
+          </div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-weight="15">
+          <div class="check-item-text">
+            <h4>Low Idle Noise Floor (Zero Hiss)</h4>
+            <p>No loud high-frequency static hiss or ground hum during low volume playback.</p>
+          </div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-weight="15">
+          <div class="check-item-text">
+            <h4>Acceptable A/V Latency (&lt;200ms)</h4>
+            <p>Sound aligns with visual stimulus without distracting desynchronization lag.</p>
+          </div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-weight="10">
+          <div class="check-item-text">
+            <h4>Physical Enclosure & Port Seals</h4>
+            <p>No air leaks whistling around charge ports, auxiliary jacks, or rubber gaskets.</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="health-score-card">
+        <div>
+          <div style="font-size:0.85rem; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Calculated Health Index</div>
+          <div id="healthScoreDisplay" class="score-badge-large">0%</div>
+          <div id="healthVerdict" style="font-size:0.95rem; color:#fff; margin-top:4px;">Incomplete Assessment: Run tests and select passing checkpoints.</div>
+        </div>
+        <div>
+          <button id="btnResetScore" class="btn-secondary" style="font-size:0.8rem;">Clear All Checks</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- AdSense Rich Content: Technical Guide & SI Units Metrology -->
+    <article class="article-section">
+      <h2>Acoustic Metrology & Speaker Health: Engineering Guide</h2>
+      <p>
+        Evaluating a portable Bluetooth loudspeaker requires measuring physical parameters defined by international scientific standards. When checking a pre-owned or new speaker, listening to ordinary pop music masks subtle driver degradation due to dynamic compression and studio mastering. Pure tone waveforms and controlled stress diagnostics reveal mechanical fatigue, electrical shorts, and seal breaches.
+      </p>
+
+      <h3>International System of Units (SI) in Acoustic Metrology</h3>
+      <table class="si-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>SI Unit / Symbol</th>
+            <th>Acoustic Significance</th>
+            <th>Diagnostic Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Frequency ($f$)</strong></td>
+            <td>Hertz ($\text{Hz} = \text{s}^{-1}$)</td>
+            <td>Vibrational cycles per second of the voice coil and diaphragm.</td>
+            <td>Tests sub-bass ($20-60\text{ Hz}$), midrange ($250-4000\text{ Hz}$), and tweeter extension ($>10\text{ kHz}$).</td>
+          </tr>
+          <tr>
+            <td><strong>Sound Pressure Level</strong></td>
+            <td>Decibel ($\text{dB SPL}$, reference: $20\ \mu\text{Pa}$)</td>
+            <td>Logarithmic measure of effective sound pressure relative to human threshold.</td>
+            <td>Measures dynamic headroom, maximum volume stability, and idle noise floor.</td>
+          </tr>
+          <tr>
+            <td><strong>Continuous Power</strong></td>
+            <td>Watt ($\text{W} = \text{J}\cdot\text{s}^{-1}$) Root-Mean-Square</td>
+            <td>True thermal capacity of the internal amplifier into the driver load.</td>
+            <td>Continuous RMS rating indicates real output, unlike deceptive "Peak/PMPO" figures.</td>
+          </tr>
+          <tr>
+            <td><strong>Total Harmonic Distortion</strong></td>
+            <td>Percentage ($\%\ \text{THD}$)</td>
+            <td>Ratio of unwanted harmonic distortion energy to fundamental frequency energy.</td>
+            <td>$\text{THD} &gt; 1\%$ indicates amplifier clipping, voice-coil bottoming, or thermal saturation.</td>
+          </tr>
+          <tr>
+            <td><strong>Audio-Visual Latency</strong></td>
+            <td>Millisecond ($\text{ms} = 10^{-3}\ \text{s}$)</td>
+            <td>Transmission, decoding, and DSP buffer time between transmitter and speaker.</td>
+            <td>Bluetooth latency $>250\text{ ms}$ makes gaming and movie dialogue unsynchronized.</td>
+          </tr>
+          <tr>
+            <td><strong>Electrical Impedance ($Z$)</strong></td>
+            <td>Ohm ($\Omega = \text{V}\cdot\text{A}^{-1}$)</td>
+            <td>Combined resistance and reactance across speaker voice coils.</td>
+            <td>Voice-coil shorts reduce impedance, triggering thermal shutdown or distortion.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Common Causes of Failure in Used Bluetooth Speakers</h3>
+      <p>
+        <strong>1. Voice Coil Alignment Rubbing:</strong> When a speaker is dropped or overdriven, the cylindrical coil of wire suspended inside the permanent magnetic gap can warp. At high excursions (low bass), this warped coil rubs against the metal pole piece, producing a harsh raspy scratch.
+      </p>
+      <p>
+        <strong>2. Passive Radiator Gasket Splitting:</strong> Compact Bluetooth speakers rely on passive radiators to synthesize deep bass from tiny enclosures. The rubber surrounds fatigue from UV exposure, moisture, or age, developing micro-tears that leak air pressure and cause flapping sounds during bass notes.
+      </p>
+      <p>
+        <strong>3. Battery Cell Voltage Sag:</strong> Lithium-ion cells degrade after 300–500 cycles. When weak batteries cannot supply high peak currents for bass beats, the amplifier's power rail collapses, causing sudden shutdowns, Bluetooth disconnections, or heavy audio crackling at high volume.
+      </p>
+    </article>
+
+    <!-- Bottom Ad Placement Slot (AdSense Ready) -->
+    <div class="ad-container">
+      <div>Advertisement Space</div>
+      <div class="ad-placeholder">
+        <span>[Google AdSense Responsive Unit Slot - Footer Unit]</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mandatory Footer & Compliance Links for Google AdSense Approval -->
+  <footer>
+    <div class="footer-links">
+      <a data-modal="modalAbout">About AcoustiScan</a>
+      <a data-modal="modalMethodology">Testing Methodology</a>
+      <a data-modal="modalPrivacy">Privacy Policy</a>
+      <a data-modal="modalTerms">Terms of Service</a>
+      <a data-modal="modalContact">Contact & Feedback</a>
+    </div>
+    <p>&copy; 2026 AcoustiScan Audio Diagnostics Suite. All rights reserved.</p>
+    <p style="margin-top: 5px; font-size: 0.75rem; color: #57657d;">
+      Web Audio API is executed entirely client-side. Microphone data (when enabled) is processed directly in your browser's RAM for real-time FFT analysis and is never stored, recorded, or transmitted.
+    </p>
+  </footer>
+
+  <!-- MODALS FOR POLICY & TRANSPARENCY -->
+  <div id="modalAbout" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" data-close>&times;</button>
+      <h3 style="color:#fff; margin-bottom:12px;">About AcoustiScan</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">
+        AcoustiScan is an open acoustic metrology tool designed to help consumers evaluate audio hardware before purchase. By utilizing the browser's native Web Audio API, AcoustiScan generates pure mathematical waveforms directly from the digital-to-analog converter (DAC) without compression artifacts.
+      </p>
+    </div>
+  </div>
+
+  <div id="modalMethodology" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" data-close>&times;</button>
+      <h3 style="color:#fff; margin-bottom:12px;">Acoustic Methodology</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:10px;">
+        All waveform generators employ 32-bit floating-point precision oscillators. Frequency sweeps utilize logarithmic frequency progression corresponding with ISO 226 human loudness curves.
+      </p>
+      <p style="color:var(--text-muted); font-size:0.9rem;">
+        Intermodulation Distortion testing uses the SMPTE standard mix (60 Hz low carrier paired with 1 kHz analytical tone) to detect chassis resonance and amplifier saturation.
+      </p>
+    </div>
+  </div>
+
+  <div id="modalPrivacy" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" data-close>&times;</button>
+      <h3 style="color:#fff; margin-bottom:12px;">Privacy Policy</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:10px;">
+        Your privacy is paramount. AcoustiScan does not harvest, store, or sell personal data.
+      </p>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:10px;">
+        <strong>Microphone Permissions:</strong> When the Live Mic dB monitor is enabled, browser audio stream permissions are used exclusively for client-side RMS volume calculation. Audio is never recorded, buffered to disk, or sent to any server.
+      </p>
+      <p style="color:var(--text-muted); font-size:0.9rem;">
+        <strong>Advertising:</strong> Third-party vendors, including Google, may use cookies to serve ads based on prior visits. Users can opt out of personalized advertising by visiting Google Ads Settings.
+      </p>
+    </div>
+  </div>
+
+  <div id="modalTerms" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" data-close>&times;</button>
+      <h3 style="color:#fff; margin-bottom:12px;">Terms of Service</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">
+        This utility is provided free of charge "as is" without warranty. Users are responsible for adjusting speaker gain to safe volume levels. AcoustiScan is not liable for hardware damage caused by overdriving damaged speaker drivers.
+      </p>
+    </div>
+  </div>
+
+  <div id="modalContact" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" data-close>&times;</button>
+      <h3 style="color:#fff; margin-bottom:12px;">Contact & Bug Reports</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">
+        For issues, improvements, or feature suggestions, submit an issue to your GitHub repository hosting this page or reach out to the project maintainers.
+      </p>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION CORE -->
+  <script>
+    (function () {
+      "use strict";
+
+      // Audio Context Initialization
+      let audioCtx = null;
+      let masterGainNode = null;
+      let analyserNode = null;
+      let activeSourceNodes = [];
+      let micStream = null;
+      let micSourceNode = null;
+      let micAnalyser = null;
+
+      // Sweep state
+      let sweepInterval = null;
+      let sweepRunning = false;
+
+      // Latency state
+      let latencyInterval = null;
+      let latencyRunning = false;
+
+      // Visualizer Canvas setup
+      const canvas = document.getElementById("scopeCanvas");
+      const ctx = canvas.getContext("2d");
+      const telemetryEl = document.getElementById("scopeTelemetry");
+      const statusBadge = document.getElementById("activeSignalBadge");
+
+      function resizeCanvas() {
+        if (!canvas) return;
+        canvas.width = canvas.parentElement.clientWidth * window.devicePixelRatio || 600;
+        canvas.height = canvas.parentElement.clientHeight * window.devicePixelRatio || 180;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      function ensureAudioContext() {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContextClass();
+
+          masterGainNode = audioCtx.createGain();
+          const savedVol = parseFloat(document.getElementById("masterGain").value) || 0.4;
+          masterGainNode.gain.setValueAtTime(savedVol, audioCtx.currentTime);
+
+          analyserNode = audioCtx.createAnalyser();
+          analyserNode.fftSize = 2048;
+          analyserNode.smoothingTimeConstant = 0.8;
+
+          masterGainNode.connect(analyserNode);
+          analyserNode.connect(audioCtx.destination);
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+      }
+
+      function stopAllAudio() {
+        // Stop any active oscillators
+        activeSourceNodes.forEach(node => {
+          try {
+            if (node.stop) node.stop();
+            if (node.disconnect) node.disconnect();
+          } catch (e) {}
+        });
+        activeSourceNodes = [];
+
+        // Clear Sweep
+        if (sweepInterval) {
+          clearInterval(sweepInterval);
+          sweepInterval = null;
+        }
+        sweepRunning = false;
+        document.getElementById("sweepProgressBar").style.width = "0%";
+        document.getElementById("sweepProgressFreq").textContent = "Idle";
+
+        // Clear Latency
+        if (latencyInterval) {
+          clearInterval(latencyInterval);
+          latencyInterval = null;
+        }
+        latencyRunning = false;
+        const latBox = document.getElementById("latencyBox");
+        latBox.classList.remove("flash");
+        latBox.textContent = "FLASH SYNC";
+
+        statusBadge.textContent = "Output: Idle";
+        statusBadge.classList.remove("active");
+      }
+
+      // Master Gain Slider
+      const masterGainInput = document.getElementById("masterGain");
+      const masterGainDisplay = document.getElementById("masterGainDisplay");
+      masterGainInput.addEventListener("input", (e) => {
+        const val = parseFloat(e.target.value);
+        if (masterGainNode && audioCtx) {
+          masterGainNode.gain.setTargetAtTime(val, audioCtx.currentTime, 0.02);
+        }
+        const db = val > 0 ? (20 * Math.log10(val)).toFixed(1) : "-inf";
+        masterGainDisplay.textContent = `${Math.round(val * 100)}% (${db} dB)`;
+      });
+
+      // Emergency Stop
+      document.getElementById("btnEmergencyStop").addEventListener("click", stopAllAudio);
+
+      // --- TEST 1: SUB-BASS ---
+      const bassSlider = document.getElementById("bassSlider");
+      const bassFreqLabel = document.getElementById("bassFreqLabel");
+      let bassOsc = null;
+
+      bassSlider.addEventListener("input", (e) => {
+        const freq = e.target.value;
+        bassFreqLabel.textContent = `${freq} Hz`;
+        if (bassOsc && audioCtx) {
+          bassOsc.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.03);
+        }
+      });
+
+      document.querySelectorAll("[data-quickbass]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const f = btn.getAttribute("data-quickbass");
+          bassSlider.value = f;
+          bassFreqLabel.textContent = `${f} Hz`;
+          if (bassOsc && audioCtx) {
+            bassOsc.frequency.setTargetAtTime(f, audioCtx.currentTime, 0.03);
+          }
+        });
+      });
+
+      document.getElementById("btnPlayBass").addEventListener("click", () => {
+        ensureAudioContext();
+        stopAllAudio();
+
+        bassOsc = audioCtx.createOscillator();
+        bassOsc.type = "sine";
+        const freq = parseFloat(bassSlider.value);
+        bassOsc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        bassOsc.connect(masterGainNode);
+        bassOsc.start();
+        activeSourceNodes.push(bassOsc);
+
+        statusBadge.textContent = `Bass: ${freq} Hz Sine`;
+        statusBadge.classList.add("active");
+      });
+
+      document.getElementById("btnStopBass").addEventListener("click", stopAllAudio);
+
+      // --- TEST 2: FREQUENCY SWEEP ---
+      const sweepDurationSlider = document.getElementById("sweepDurationSlider");
+      const sweepDurLabel = document.getElementById("sweepDurLabel");
+      sweepDurationSlider.addEventListener("input", (e) => {
+        sweepDurLabel.textContent = `${e.target.value} Seconds`;
+      });
+
+      document.getElementById("btnStartSweep").addEventListener("click", () => {
+        ensureAudioContext();
+        stopAllAudio();
+
+        const duration = parseFloat(sweepDurationSlider.value);
+        const osc = audioCtx.createOscillator();
+        osc.type = "sine";
+
+        const startFreq = 20;
+        const endFreq = 20000;
+        const now = audioCtx.currentTime;
+
+        osc.frequency.setValueAtTime(startFreq, now);
+        // Exponential sweep
+        osc.frequency.exponentialRampToValueAtTime(endFreq, now + duration);
+
+        osc.connect(masterGainNode);
+        osc.start(now);
+        osc.stop(now + duration);
+        activeSourceNodes.push(osc);
+
+        sweepRunning = true;
+        const startTime = Date.now();
+        const endTime = startTime + (duration * 1000);
+
+        statusBadge.textContent = `Sweep: 20 Hz -> 20 kHz`;
+        statusBadge.classList.add("active");
+
+        sweepInterval = setInterval(() => {
+          const curr = Date.now();
+          const elapsed = (curr - startTime) / (duration * 1000);
+          if (elapsed >= 1) {
+            clearInterval(sweepInterval);
+            document.getElementById("sweepProgressBar").style.width = "100%";
+            document.getElementById("sweepProgressFreq").textContent = "Completed 20 kHz";
+            statusBadge.textContent = "Sweep Finished";
+            statusBadge.classList.remove("active");
+          } else {
+            const currentFreq = startFreq * Math.pow(endFreq / startFreq, elapsed);
+            document.getElementById("sweepProgressBar").style.width = `${(elapsed * 100).toFixed(1)}%`;
+            document.getElementById("sweepProgressFreq").textContent = `${Math.round(currentFreq)} Hz`;
+          }
+        }, 50);
+      });
+
+      document.getElementById("btnStopSweep").addEventListener("click", stopAllAudio);
+
+      // --- TEST 3: STEREO & POLARITY ---
+      let stereoPanner = null;
+
+      function playStereoTone(panVal, invertPhase) {
+        ensureAudioContext();
+        stopAllAudio();
+
+        const osc = audioCtx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(250, audioCtx.currentTime); // 250 Hz clear test tone
+
+        if (invertPhase) {
+          // Out of phase setup: Invert right channel
+          const merger = audioCtx.createChannelMerger(2);
+          const leftGain = audioCtx.createGain();
+          const rightGain = audioCtx.createGain();
+
+          leftGain.gain.value = 1.0;
+          rightGain.gain.value = -1.0; // Invert phase 180 degrees
+
+          osc.connect(leftGain);
+          osc.connect(rightGain);
+          leftGain.connect(merger, 0, 0);
+          rightGain.connect(merger, 0, 1);
+
+          merger.connect(masterGainNode);
+          osc.start();
+          activeSourceNodes.push(osc, leftGain, rightGain, merger);
+          statusBadge.textContent = "Polarity: 180° Inverted";
+        } else {
+          // Normal stereo panner
+          if (audioCtx.createStereoPanner) {
+            stereoPanner = audioCtx.createStereoPanner();
+            stereoPanner.pan.setValueAtTime(panVal, audioCtx.currentTime);
+            osc.connect(stereoPanner);
+            stereoPanner.connect(masterGainNode);
+            activeSourceNodes.push(stereoPanner);
+          } else {
+            osc.connect(masterGainNode);
+          }
+          osc.start();
+          activeSourceNodes.push(osc);
+          const posName = panVal === -1 ? "Left Only" : panVal === 1 ? "Right Only" : "Center Stereo";
+          statusBadge.textContent = `Stereo: ${posName}`;
+        }
+        statusBadge.classList.add("active");
+      }
+
+      document.getElementById("btnChannelLeft").addEventListener("click", () => playStereoTone(-1, false));
+      document.getElementById("btnChannelCenter").addEventListener("click", () => playStereoTone(0, false));
+      document.getElementById("btnChannelRight").addEventListener("click", () => playStereoTone(1, false));
+      document.getElementById("btnPhaseNormal").addEventListener("click", () => playStereoTone(0, false));
+      document.getElementById("btnPhaseInverted").addEventListener("click", () => playStereoTone(0, true));
+      document.getElementById("btnStopStereo").addEventListener("click", stopAllAudio);
+
+      // --- TEST 4: DUAL-TONE IMD & CHASSIS BUZZ ---
+      document.getElementById("btnPlayIMD").addEventListener("click", () => {
+        ensureAudioContext();
+        stopAllAudio();
+
+        // 60 Hz low carrier + 1000 Hz mid tone
+        const oscLow = audioCtx.createOscillator();
+        const oscHigh = audioCtx.createOscillator();
+        const gainLow = audioCtx.createGain();
+        const gainHigh = audioCtx.createGain();
+
+        oscLow.type = "sine";
+        oscLow.frequency.setValueAtTime(60, audioCtx.currentTime);
+        gainLow.gain.setValueAtTime(0.8, audioCtx.currentTime); // 80% bass
+
+        oscHigh.type = "sine";
+        oscHigh.frequency.setValueAtTime(1000, audioCtx.currentTime);
+        gainHigh.gain.setValueAtTime(0.2, audioCtx.currentTime); // 20% high
+
+        oscLow.connect(gainLow);
+        oscHigh.connect(gainHigh);
+        gainLow.connect(masterGainNode);
+        gainHigh.connect(masterGainNode);
+
+        oscLow.start();
+        oscHigh.start();
+        activeSourceNodes.push(oscLow, oscHigh, gainLow, gainHigh);
+
+        statusBadge.textContent = "IMD: 60Hz + 1kHz Duo";
+        statusBadge.classList.add("active");
+      });
+
+      document.getElementById("btnStopIMD").addEventListener("click", stopAllAudio);
+
+      // --- TEST 5: BLUETOOTH LATENCY TICKER ---
+      const latencyBox = document.getElementById("latencyBox");
+      const latencyOffsetSlider = document.getElementById("latencyOffsetSlider");
+      const latencyOffsetLabel = document.getElementById("latencyOffsetLabel");
+
+      latencyOffsetSlider.addEventListener("input", (e) => {
+        latencyOffsetLabel.textContent = `${e.target.value} ms`;
+      });
+
+      document.getElementById("btnStartLatency").addEventListener("click", () => {
+        ensureAudioContext();
+        stopAllAudio();
+
+        latencyRunning = true;
+        statusBadge.textContent = "A/V Latency Ticker Active";
+        statusBadge.classList.add("active");
+
+        function tick() {
+          if (!latencyRunning) return;
+
+          // Visual Flash
+          latencyBox.classList.add("flash");
+          latencyBox.textContent = "BEEP / FLASH";
+
+          const offsetMs = parseFloat(latencyOffsetSlider.value);
+          const audioDelay = Math.max(0, offsetMs) / 1000;
+
+          // Sound Beep
+          try {
+            const beepOsc = audioCtx.createOscillator();
+            const beepGain = audioCtx.createGain();
+            beepOsc.type = "sine";
+            beepOsc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+
+            const beepTime = audioCtx.currentTime + audioDelay;
+            beepGain.gain.setValueAtTime(0, beepTime);
+            beepGain.gain.linearRampToValueAtTime(0.9, beepTime + 0.005);
+            beepGain.gain.exponentialRampToValueAtTime(0.001, beepTime + 0.08);
+
+            beepOsc.connect(beepGain);
+            beepGain.connect(masterGainNode);
+
+            beepOsc.start(beepTime);
+            beepOsc.stop(beepTime + 0.09);
+          } catch(e) {}
+
+          setTimeout(() => {
+            latencyBox.classList.remove("flash");
+            latencyBox.textContent = "FLASH SYNC";
+          }, 120);
+        }
+
+        tick();
+        latencyInterval = setInterval(tick, 1000);
+      });
+
+      document.getElementById("btnStopLatency").addEventListener("click", stopAllAudio);
+
+      // --- TEST 6: NOISE FLOOR & PINK NOISE ---
+      document.getElementById("btnPinkNoise").addEventListener("click", () => {
+        ensureAudioContext();
+        stopAllAudio();
+
+        const bufferSize = audioCtx.sampleRate * 2;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        // Paul Kellet pink noise generation algorithm
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.08;
+          b6 = white * 0.115926;
+        }
+
+        const noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = buffer;
+        noiseNode.loop = true;
+        noiseNode.connect(masterGainNode);
+        noiseNode.start();
+        activeSourceNodes.push(noiseNode);
+
+        statusBadge.textContent = "Noise: Pink Spectrum";
+        statusBadge.classList.add("active");
+      });
+
+      document.getElementById("btnQuietTone").addEventListener("click", () => {
+        ensureAudioContext();
+        stopAllAudio();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.03, audioCtx.currentTime); // ~ -30 dBFS
+
+        osc.connect(gain);
+        gain.connect(masterGainNode);
+        osc.start();
+        activeSourceNodes.push(osc, gain);
+
+        statusBadge.textContent = "Tone: -30 dBFS Quiet Sine";
+        statusBadge.classList.add("active");
+      });
+
+      document.getElementById("btnStopNoise").addEventListener("click", stopAllAudio);
+
+      // --- LIVE MIC SPL dB MONITOR ---
+      let micEnabled = false;
+      let micRmsDb = -Infinity;
+      const btnEnableMic = document.getElementById("btnEnableMic");
+
+      btnEnableMic.addEventListener("click", async () => {
+        ensureAudioContext();
+        if (micEnabled) {
+          if (micStream) micStream.getTracks().forEach(t => t.stop());
+          micEnabled = false;
+          btnEnableMic.classList.remove("btn-primary");
+          btnEnableMic.classList.add("btn-secondary");
+          btnEnableMic.innerHTML = 'Live Mic dB SPL';
+          return;
+        }
+
+        try {
+          micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+          micSourceNode = audioCtx.createMediaStreamSource(micStream);
+          micAnalyser = audioCtx.createAnalyser();
+          micAnalyser.fftSize = 512;
+          micSourceNode.connect(micAnalyser);
+
+          micEnabled = true;
+          btnEnableMic.classList.remove("btn-secondary");
+          btnEnableMic.classList.add("btn-primary");
+          btnEnableMic.innerHTML = 'Mic Active [Stop]';
+        } catch (err) {
+          alert("Microphone access was denied or is unavailable on this device.");
+        }
+      });
+
+      // --- VISUALIZER LOOP ---
+      const timeDomainData = new Uint8Array(1024);
+      const freqData = new Uint8Array(512);
+      const micTimeData = new Float32Array(512);
+
+      function renderCanvas() {
+        requestAnimationFrame(renderCanvas);
+        if (!ctx) return;
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        ctx.fillStyle = "#060910";
+        ctx.fillRect(0, 0, width, height);
+
+        // Grid lines
+        ctx.strokeStyle = "#101828";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x < width; x += 60) {
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+        }
+        for (let y = 0; y < height; y += 30) {
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+        }
+        ctx.stroke();
+
+        let currentPeakDb = -Infinity;
+
+        if (analyserNode) {
+          analyserNode.getByteTimeDomainData(timeDomainData);
+          analyserNode.getByteFrequencyData(freqData);
+
+          // Render Waveform Oscilloscope
+          ctx.lineWidth = 2.5;
+          ctx.strokeStyle = "#00f0ff";
+          ctx.beginPath();
+
+          const sliceWidth = width / timeDomainData.length;
+          let x = 0;
+
+          for (let i = 0; i < timeDomainData.length; i++) {
+            const v = timeDomainData[i] / 128.0;
+            const y = (v * height) / 2;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+            x += sliceWidth;
+
+            // Peak calculation
+            const sampleAmp = Math.abs(v - 1.0);
+            if (sampleAmp > currentPeakDb) currentPeakDb = sampleAmp;
+          }
+          ctx.stroke();
+
+          // Render Subtle Frequency Spectrum in Background
+          ctx.fillStyle = "rgba(0, 119, 255, 0.15)";
+          const barWidth = (width / freqData.length) * 2;
+          let barX = 0;
+          for (let i = 0; i < freqData.length; i++) {
+            const barHeight = (freqData[i] / 255) * height;
+            ctx.fillRect(barX, height - barHeight, barWidth - 1, barHeight);
+            barX += barWidth;
+          }
+        }
+
+        // Calculate Mic dB if active
+        let micDisplay = "--";
+        if (micEnabled && micAnalyser) {
+          micAnalyser.getFloatTimeDomainData(micTimeData);
+          let sumSquares = 0;
+          for (let i = 0; i < micTimeData.length; i++) {
+            sumSquares += micTimeData[i] * micTimeData[i];
+          }
+          const rms = Math.sqrt(sumSquares / micTimeData.length);
+          // Calibration offset approximation for device mic
+          const dbSpl = rms > 0.00001 ? (20 * Math.log10(rms) + 94).toFixed(1) : "0.0";
+          micDisplay = `${dbSpl} dB SPL`;
+        }
+
+        const peakDbfs = currentPeakDb > 0.001 ? (20 * Math.log10(currentPeakDb)).toFixed(1) : "-inf";
+        telemetryEl.textContent = `Peak: ${peakDbfs} dBFS | Mic Est: ${micDisplay}`;
+      }
+      renderCanvas();
+
+      // --- SPEAKER HEALTH CHECKLIST & REPORT CARD ---
+      const checkboxes = document.querySelectorAll("#auditChecklist input[type='checkbox']");
+      const healthScoreDisplay = document.getElementById("healthScoreDisplay");
+      const healthVerdict = document.getElementById("healthVerdict");
+
+      function updateHealthScore() {
+        let totalScore = 0;
+        let checkedCount = 0;
+
+        checkboxes.forEach(cb => {
+          if (cb.checked) {
+            totalScore += parseInt(cb.getAttribute("data-weight") || 0, 10);
+            checkedCount++;
+          }
+        });
+
+        healthScoreDisplay.textContent = `${totalScore}%`;
+
+        if (totalScore >= 90) {
+          healthScoreDisplay.style.color = "var(--accent-green)";
+          healthVerdict.textContent = "Grade A+ (Pristine Health): Drivers and seals operate within factory specifications.";
+        } else if (totalScore >= 70) {
+          healthScoreDisplay.style.color = "var(--accent-yellow)";
+          healthVerdict.textContent = "Grade B (Minor Wear): Passable sound, but check for minor cabinet buzz or hiss.";
+        } else if (totalScore >= 40) {
+          healthScoreDisplay.style.color = "var(--accent-red)";
+          healthVerdict.textContent = "Grade C (Noticeable Defect): Blown driver, severe port whistling, or worn battery.";
+        } else {
+          healthScoreDisplay.style.color = "var(--text-muted)";
+          healthVerdict.textContent = "Incomplete Assessment: Run tests and select passing checkpoints.";
+        }
+      }
+
+      checkboxes.forEach(cb => cb.addEventListener("change", updateHealthScore));
+
+      document.getElementById("btnResetScore").addEventListener("click", () => {
+        checkboxes.forEach(cb => cb.checked = false);
+        updateHealthScore();
+      });
+
+      document.getElementById("btnPrintReport").addEventListener("click", () => {
+        window.print();
+      });
+
+      // --- MODALS FOR ADSENSE COMPLIANCE ---
+      document.querySelectorAll("[data-modal]").forEach(trigger => {
+        trigger.addEventListener("click", () => {
+          const targetId = trigger.getAttribute("data-modal");
+          const target = document.getElementById(targetId);
+          if (target) target.style.display = "flex";
+        });
+      });
+
+      document.querySelectorAll("[data-close]").forEach(closeBtn => {
+        closeBtn.addEventListener("click", () => {
+          closeBtn.closest(".modal-overlay").style.display = "none";
+        });
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target.classList.contains("modal-overlay")) {
+          e.target.style.display = "none";
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>
